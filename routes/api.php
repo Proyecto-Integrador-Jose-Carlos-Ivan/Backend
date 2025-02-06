@@ -11,7 +11,10 @@ use App\Http\Controllers\API\OperatorsController;
 use App\Http\Controllers\API\ZonesController;
 use App\Http\Controllers\API\ReportsController;
 
-Route::post('/login/google', [AuthController::class, 'googleLogin']);
+
+Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/user', function (Request $request) {
     return response()->json($request->user());

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
+use Laravel\Socialite\Facades\Socialite;
 
 
 /**
@@ -49,30 +49,54 @@ use Illuminate\Support\Facades\Log;
  */
 class AuthController extends BaseController
 {
-    public function login(Request $request)
+    public function redirectToGoogle()
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $authUser = Auth::user();
-            
-            // Agregar registro de depuración para verificar el usuario autenticado
-            Log::debug('User authenticated', [
-                'user_id' => $authUser->id,
-                'name' => $authUser->name,
-                'user_email' => $authUser->email,
-            ]);
-            
-            // Verificar el nombre del usuario antes de devolver la respuesta
-            $result['token'] = $authUser->createToken('MyAuthApp')->plainTextToken;
-            $result['name'] = $authUser->name;
-    
-            Log::debug('Login response', [
-                'token' => $result['token'],
-                'name' => $result['name'],
-            ]);
-    
-            return $this->sendResponse($result, 'User signed in');
+        return Socialite::driver('google')->redirect();
+    }
+
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+
+            // Cerca o crea l'usuari a la base de dades
+            $user = User::updateOrCreate(
+                ['email' => $googleUser->email],
+                [
+                    'name' => $googleUser->name,
+                    'google_id' => $googleUser->id,
+                    'avatar' => $googleUser->avatar,
+                ]
+            );
+
+            // Autentica l'usuari
+            Auth::login($user);
+
+            // Generar token Sanctum
+            // Si volem autenticar en l'API podriem generar un token
+            $token = $user->createToken('Personal Access Token')->plainTextToken;
+
+            // Retornar el token i l'estat
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'token' => $token,
+                    'name' => $user->name,
+                ],
+                'message' => 'User signed in'
+            ], 200);
+
+        } catch (\Exception $e) {
+            // Maneig d'errors
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorised',
+                'info' => [
+                    'error' => $e->getMessage()
+                ]
+            ], 401);
         }
-        return $this->sendError('Unauthorised.', ['error' => 'incorrect Email/Password']);
     }
     public function register(Request $request)
     {
