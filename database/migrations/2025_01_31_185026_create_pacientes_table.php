@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,18 +15,18 @@ return new class extends Migration
             $table->string('nombre');
             $table->date('fecha_nacimiento');
             $table->string('direccion');
-            $table->string('dni');
-            $table->integer('sip');
+            $table->string('dni')->unique();
+            $table->integer('sip')->unique();
             $table->integer('telefono');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->unsignedBigInteger('zona_id');
-            $table->foreign('zona_id')->references('id')->on('zonas')->onDelete('cascade');
-            $table->string('situacion_personal');
-            $table->string('situacion_sanitaria');
-            $table->string('situacion_habitage');
-            $table->string('autonomia');
-            $table->string('situacion_economica');
-            $table->foreign('contacto_id')->references('id')->on('contactos')->onDelete('cascade');
+            $table->unsignedBigInteger('contacto_id');
+            $table->text('situacion_personal')->nullable();
+            $table->text('situacion_sanitaria')->nullable();
+            $table->text('situacion_habitage')->nullable();
+            $table->text('autonomia')->nullable();
+            $table->text('situacion_economica')->nullable();
+
             $table->timestamps();
         });
     }
