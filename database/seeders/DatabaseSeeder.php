@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ContactPersonSeeder::class,
             AlertSeeder::class,
             CallSeeder::class,
+            UserZonaSeeder::class,
         ]);
     }
 }
