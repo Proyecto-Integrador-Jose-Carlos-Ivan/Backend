@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'avatar',
+        'telefono',
+        'lenguas',
+        'fecha_contratacion',
+        'fecha_baja',
+        'username',
+        'apellidos',
+        'role',
     ];
 
     /**
@@ -44,5 +54,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function zonas()
+    {
+        return $this->belongsToMany(Zone::class, 'user_zonas');
+    }
+
+    public function llamadas()
+    {
+        return $this->hasMany(Call::class, 'operador_id');
     }
 }

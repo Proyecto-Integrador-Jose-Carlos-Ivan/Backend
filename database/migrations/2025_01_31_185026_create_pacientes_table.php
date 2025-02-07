@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->integer('telefono');
             $table->string('email')->unique();
             $table->unsignedBigInteger('zona_id');
-            $table->unsignedBigInteger('contacto_id');
             $table->text('situacion_personal')->nullable();
             $table->text('situacion_sanitaria')->nullable();
             $table->text('situacion_habitage')->nullable();

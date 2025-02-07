@@ -33,7 +33,7 @@ return new class extends Migration
             $table->foreign('zona_id')
                   ->references('id')
                   ->on('zonas')
-                  ->onDelete('cascade');
+                  ->onDelete('cascade')->nullable();
         });
     }
 
