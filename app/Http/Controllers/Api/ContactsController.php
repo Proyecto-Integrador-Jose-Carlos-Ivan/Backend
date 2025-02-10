@@ -2,38 +2,55 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Contact;
+use App\Models\ContactPerson as Contact;
+use App\Http\Requests\StoreContactRequestApi;
+use App\Http\Requests\UpdateContactRequestApi;
 
-class ContactsController extends Controller
+class ContactsController extends BaseController
 {
     public function index(Request $request, $patientId)
     {
-        // Listar contactos de un paciente
-        $contacts = Contact::where('paciente_id', $patientId)->get();
-        return response()->json($contacts);
+        try {
+            // Listar contactos de un paciente
+            $contacts = Contact::where('paciente_id', $patientId)->get();
+            return $this->sendResponse($contacts, 'Contacts retrieved successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Error retrieving contacts.', $e->getMessage());
+        }
     }
 
-    public function store(Request $request, $patientId)
+    public function store(StoreContactRequestApi $request, $patientId)
     {
-        $data = $request->all();
-        $data['paciente_id'] = $patientId;
-        $contact = Contact::create($data);
-        return response()->json($contact, 201);
+        try {
+            $data = $request->all();
+            $data['paciente_id'] = $patientId;
+            $contact = Contact::create($data);
+            return $this->sendResponse($contact, 'Contact created successfully.', 201);
+        } catch (\Exception $e) {
+            return $this->sendError('Error creating contact.', $e->getMessage());
+        }
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateContactRequestApi $request, $id)
     {
-        $contact = Contact::findOrFail($id);
-        $contact->update($request->all());
-        return response()->json($contact);
+        try {
+            $contact = Contact::findOrFail($id);
+            $contact->update($request->all());
+            return $this->sendResponse($contact, 'Contact updated successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Error updating contact.', $e->getMessage());
+        }
     }
 
     public function destroy($id)
     {
-        $contact = Contact::findOrFail($id);
-        $contact->delete();
-        return response()->json(null, 204);
+        try {
+            $contact = Contact::findOrFail($id);
+            $contact->delete();
+            return $this->sendResponse(null, 'Contact deleted successfully.', 204);
+        } catch (\Exception $e) {
+            return $this->sendError('Error deleting contact.', $e->getMessage());
+        }
     }
 }

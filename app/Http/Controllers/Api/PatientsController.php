@@ -2,42 +2,64 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Patient;
+use App\Http\Requests\StorePatientRequestApi;
+use App\Http\Requests\UpdatePatientRequestApi;
 
-class PatientsController extends Controller
+
+class PatientsController extends BaseController
 {
     public function index(Request $request)
     {
-        // Listar Patients, opcionalmente filtrados por zona
-        $patients = Patient::all();
-        return response()->json($patients);
+        try {
+            // Listar Patients, opcionalmente filtrados por zona
+            $patients = Patient::all();
+            return $this->sendResponse($patients, 'Patients retrieved successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Error retrieving patients.', $e->getMessage());
+        }
     }
 
-    public function store(Request $request)
+    public function store(StorePatientRequestApi $request)
     {
-        $patient = Patient::create($request->all());
-        return response()->json($patient, 201);
+        try {
+            $patient = Patient::create($request->all());
+            return $this->sendResponse($patient, 'Patient created successfully.', 201);
+        } catch (\Exception $e) {
+            return $this->sendError('Error creating patient.', $e->getMessage());
+        }
     }
 
     public function show($id)
     {
-        $patient = Patient::findOrFail($id);
-        return response()->json($patient);
+        try {
+            $patient = Patient::findOrFail($id);
+            return $this->sendResponse($patient, 'Patient retrieved successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Patient not found.', null, 404);
+        }
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdatePatientRequestApi $request, $id)
     {
-        $patient = Patient::findOrFail($id);
-        $patient->update($request->all());
-        return response()->json($patient);
+        try {
+            $patient = Patient::findOrFail($id);
+            $patient->update($request->all());
+            return $this->sendResponse($patient, 'Patient updated successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Error updating patient.', $e->getMessage());
+        }
     }
 
     public function destroy($id)
     {
-        $patient = Patient::findOrFail($id);
-        $patient->delete();
-        return response()->json(null, 204);
+        try {
+            $patient = Patient::findOrFail($id);
+            $patient->delete();
+            return $this->sendResponse(null, 'Patient deleted successfully.', 204);
+        } catch (\Exception $e) {
+            return $this->sendError('Error deleting patient.', $e->getMessage());
+        }
     }
 }
