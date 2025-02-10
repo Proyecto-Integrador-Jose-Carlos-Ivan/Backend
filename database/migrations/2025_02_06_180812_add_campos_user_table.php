@@ -12,12 +12,12 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('apellidos')->after('name')->nullable();
-            $table->string('role')->default('usuario');
-            $table->string('telefono');
+            $table->string('role')->default('operador');
+            $table->string('telefono')->nullable();
             $table->string('lenguas')->nullable();
             $table->date('fecha_contratacion')->nullable();
             $table->date('fecha_baja')->nullable();
-            $table->string('username')->unique();
+            $table->string('username')->unique()->nullable();
         });
     }
 

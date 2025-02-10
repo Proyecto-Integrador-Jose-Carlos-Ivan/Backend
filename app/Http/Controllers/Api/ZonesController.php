@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Zona;
+use App\Models\Zone;
 
 class ZonesController extends Controller
 {
@@ -13,29 +13,29 @@ class ZonesController extends Controller
      */
     public function index(Request $request)
     {
-        $zones = Zona::all();
+        $zones = Zone::all();
         return response()->json($zones);
     }
 
     public function show($id)
     {
-        $zone = Zona::findOrFail($id);
+        $zone = Zone::findOrFail($id);
         return response()->json($zone);
     }
 
-    // Ejemplo para listar pacientes de una zona
+    // Ejemplo para listar pacientes de una Zone
     public function patients($id)
     {
-        $zone = Zona::findOrFail($id);
-        // Asumiendo que Zona tiene relación 'pacientes'
+        $zone = Zone::findOrFail($id);
+        // Asumiendo que Zone tiene relación 'pacientes'
         return response()->json($zone->pacientes);
     }
 
-    // Ejemplo para listar operadores asignados a una zona
+    // Ejemplo para listar operadores asignados a una Zone
     public function operators($id)
     {
-        $zone = Zona::findOrFail($id);
-        // Asumiendo que Zona tiene relación 'operadores'
+        $zone = Zone::findOrFail($id);
+        // Asumiendo que Zone tiene relación 'operadores'
         return response()->json($zone->operadores);
     }
 

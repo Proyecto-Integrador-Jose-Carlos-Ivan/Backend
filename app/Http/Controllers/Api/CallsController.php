@@ -4,38 +4,39 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Call;
 
 class CallsController extends Controller
 {
     public function index(Request $request)
     {
-        // Listar llamadas. Se puede implementar filtrado por fecha, tipo, zona, etc.
-        $calls = Llamada::all();
+        // Listar Calls. Se puede implementar filtrado por fecha, tipo, zona, etc.
+        $calls = Call::all();
         return response()->json($calls);
     }
 
     public function store(Request $request)
     {
-        $call = Llamada::create($request->all());
+        $call = Call::create($request->all());
         return response()->json($call, 201);
     }
 
     public function show($id)
     {
-        $call = Llamada::findOrFail($id);
+        $call = Call::findOrFail($id);
         return response()->json($call);
     }
 
     public function update(Request $request, $id)
     {
-        $call = Llamada::findOrFail($id);
+        $call = Call::findOrFail($id);
         $call->update($request->all());
         return response()->json($call);
     }
 
     public function destroy($id)
     {
-        $call = Llamada::findOrFail($id);
+        $call = Call::findOrFail($id);
         $call->delete();
         return response()->json(null, 204);
     }
