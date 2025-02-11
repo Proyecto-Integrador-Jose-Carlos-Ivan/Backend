@@ -12,13 +12,13 @@ use App\Http\Controllers\Api\ZonesController;
 use App\Http\Controllers\Api\ReportsController;
 
 
-Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google')->middleware('cors');
-Route::get('google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback')->middleware('cors');
+Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google')->middleware(\App\Http\Middleware\CorsMiddleware::class);
+Route::get('google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback')->middleware(\App\Http\Middleware\CorsMiddleware::class);
 
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum','cors');
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum',\App\Http\Middleware\CorsMiddleware::class);
 Route::get('/user', function (Request $request) {
     return response()->json($request->user());
-})->middleware('auth:sanctum', 'cors');
+})->middleware('auth:sanctum', \App\Http\Middleware\CorsMiddleware::class);
 
 Route::middleware(['auth:sanctum', 'cors'])->group(function () {
 
