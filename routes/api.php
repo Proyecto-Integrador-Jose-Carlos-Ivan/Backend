@@ -12,15 +12,15 @@ use App\Http\Controllers\Api\ZonesController;
 use App\Http\Controllers\Api\ReportsController;
 
 
-Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google')->middleware('cors');
+Route::get('google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback')->middleware('cors');
 
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum','cors');
 Route::get('/user', function (Request $request) {
     return response()->json($request->user());
-})->middleware('auth:sanctum');
+})->middleware('auth:sanctum', 'cors');
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'cors'])->group(function () {
 
     // Pacientes
     Route::apiResource('patients', PatientsController::class);
