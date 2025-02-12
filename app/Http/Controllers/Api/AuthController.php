@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
+
 
 class AuthController extends BaseController
 {
@@ -35,6 +37,7 @@ class AuthController extends BaseController
                     'email' => $googleUser->email,
                     'avatar' => $googleUser->avatar,
                     'telefono' => $googleUser->telefono,
+                    'password' => Hash::make('1234') // Contraseña por defecto
                 ]
             );
 
@@ -52,6 +55,30 @@ class AuthController extends BaseController
         } catch (\Exception $e) {
             return $this->sendError('Google Auth Error', $e->getMessage(),  401);
         }
+    }
+
+    public function login(Request $request)
+    {
+        // Validación básica de campos
+        $credentials = $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (!Auth::attempt($credentials)) {
+            return $this->sendError('Unauthorized', ['error' => 'Invalid credentials'], 401);
+        }
+
+        // Obtener usuario autenticado y crear token
+        $user = Auth::user();
+        $token = $user->createToken('API Token')->plainTextToken;
+
+        $result = [
+            'token' => $token,
+            'name'  => $user->name,
+        ];
+
+        return $this->sendResponse($result, 'Usuario autenticado correctamente.');
     }
 
     /**
