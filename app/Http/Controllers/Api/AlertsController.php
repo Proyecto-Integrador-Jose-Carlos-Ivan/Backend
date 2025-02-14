@@ -15,7 +15,7 @@ class AlertsController extends BaseController
     {
         try {
             $alerts = Alert::all();
-            return $this->sendResponse(new AlertResource($alerts), 'Alerts retrieved successfully.');
+            return $this->sendResponse($alerts, 'Alerts retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error retrieving alerts.', $e->getMessage());
         }
@@ -25,7 +25,7 @@ class AlertsController extends BaseController
     {
         try {
             $alert = Alert::create($request->validated());
-            return $this->sendResponse(new AlertResource($alert), 'Alert created successfully.', 201);
+            return $this->sendResponse($alert, 'Alert created successfully.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error creating alert.', $e->getMessage());
         }
@@ -35,7 +35,7 @@ class AlertsController extends BaseController
     {
         try {
             $alert = Alert::findOrFail($id);
-            return $this->sendResponse(new AlertResource($alert), 'Alert retrieved successfully.');
+            return $this->sendResponse($alert, 'Alert retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Alert not found.', null, 404);
         }
@@ -46,7 +46,7 @@ class AlertsController extends BaseController
         try {
             $alert = Alert::findOrFail($id);
             $alert->update($request->validated());
-            return $this->sendResponse(new AlertResource($alert), 'Alert updated successfully.');
+            return $this->sendResponse($alert, 'Alert updated successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error updating alert.', $e->getMessage());
         }

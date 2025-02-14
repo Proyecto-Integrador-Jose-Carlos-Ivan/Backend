@@ -15,7 +15,7 @@ class ContactsController extends BaseController
         try {
             // Listar contactos de un paciente
             $contacts = Contact::where('paciente_id', $patientId)->get();
-            return $this->sendResponse(new ContactPersonResource($contacts), 'Contacts retrieved successfully.');
+            return $this->sendResponse($contacts, 'Contacts retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error retrieving contacts.', $e->getMessage());
         }
@@ -27,7 +27,7 @@ class ContactsController extends BaseController
             $data = $request->all();
             $data['paciente_id'] = $patientId;
             $contact = Contact::create($data);
-            return $this->sendResponse(new ContactPersonResource($contact), 'Contact created successfully.', 201);
+            return $this->sendResponse($contact, 'Contact created successfully.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error creating contact.', $e->getMessage());
         }
@@ -38,7 +38,7 @@ class ContactsController extends BaseController
         try {
             $contact = Contact::findOrFail($id);
             $contact->update($request->all());
-            return $this->sendResponse(new ContactPersonResource($contact), 'Contact updated successfully.');
+            return $this->sendResponse($contact, 'Contact updated successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error updating contact.', $e->getMessage());
         }

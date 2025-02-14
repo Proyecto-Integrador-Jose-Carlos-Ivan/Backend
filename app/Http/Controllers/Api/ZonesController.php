@@ -17,7 +17,7 @@ class ZonesController extends BaseController
     {
         try {
             $zones = Zone::all();
-            return $this->sendResponse(new ZoneResource($zones), 'Zones retrieved successfully.');
+            return $this->sendResponse($zones, 'Zones retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error retrieving zones.', $e->getMessage());
         }
@@ -27,7 +27,7 @@ class ZonesController extends BaseController
     {
         try {
             $zone = Zone::findOrFail($id);
-            return $this->sendResponse(new ZoneResource($zone), 'Zone retrieved successfully.');
+            return $this->sendResponse($zone, 'Zone retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Zone not found.', null, 404);
         }
@@ -40,7 +40,7 @@ class ZonesController extends BaseController
             $zone = Zone::findOrFail($id);
             // Asumiendo que Zone tiene relación 'pacientes'
             $patients = $zone->pacientes;
-            return $this->sendResponse(new PatientResource($patients), 'Patients retrieved successfully.');
+            return $this->sendResponse($patients, 'Patients retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Zone not found.', null, 404);
         }
@@ -66,7 +66,7 @@ class ZonesController extends BaseController
     {
         try {
             $zone = Zone::create($request->all());
-            return $this->sendResponse(new ZoneResource($zone), 'Zone created successfully.', 201);
+            return $this->sendResponse($zone, 'Zone created successfully.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error creating zone.', $e->getMessage());
         }
@@ -80,7 +80,7 @@ class ZonesController extends BaseController
         try {
             $zone = Zone::findOrFail($id);
             $zone->update($request->all());
-            return $this->sendResponse(new ZoneResource($zone), 'Zone updated successfully.');
+            return $this->sendResponse($zone, 'Zone updated successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error updating zone.', $e->getMessage());
         }
