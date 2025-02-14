@@ -12,9 +12,6 @@ use App\Http\Controllers\Api\ZonesController;
 use App\Http\Controllers\Api\ReportsController;
 
 
-Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google')->middleware('web');
-Route::get('google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback')->middleware('web');
-
 Route::get('login', function (){
     return view('auth.login');
 })->name('auth.basic.login');

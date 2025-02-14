@@ -28,29 +28,27 @@ class AuthController extends BaseController
     public function handleGoogleCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->stateless()->user();
+            $googleUser = Socialite::driver('google')->user();
 
-            $user = User::updateOrCreate(
-                ['google_id' => $googleUser->id], // Usar google_id para buscar
-                [
-                    'name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                    'avatar' => $googleUser->avatar,
-                    'telefono' => $googleUser->telefono,
-                    'password' => Hash::make('1234') // Contraseña por defecto
-                ]
-            );
+            // Find the user by google_id
+            $user = User::where('email', $googleUser->email)->first();
 
-            Auth::login($user); // Autenticar para la web
+            if ($user) {
+                // If the user exists, log them in
+                Auth::login($user);
 
-            $token = $user->createToken('API Token')->plainTextToken;
+                $token = $user->createToken('API Token')->plainTextToken;
 
-            $result = [
-                'token' => $token,
-                'name' => $user->name,
-            ];
+                $result = [
+                    'token' => $token,
+                    'name' => $user->name,
+                ];
 
-            return $this->sendResponse($result, 'User signed in with Google.');
+                return $this->sendResponse($result, 'User signed in with Google.');
+            } else {
+                // If the user doesn't exist, return an error
+                return $this->sendError('Google Auth Error', 'User not found. Please sign up first.', 404);
+            }
 
         } catch (\Exception $e) {
             return $this->sendError('Google Auth Error', $e->getMessage(),  401);
