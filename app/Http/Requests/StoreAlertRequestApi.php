@@ -31,6 +31,9 @@ class StoreAlertRequestApi extends FormRequest
             ],
             'fecha' => 'nullable|date',
             'dia_semana' => 'nullable|integer|min:1|max:7',
+            'operador_id' => 'required|exists:users,id',
+            'paciente_id' => 'required|exists:pacientes,id',
+            'zona_id' => 'nullable|exists:zonas,id',
         ];
     }
 
