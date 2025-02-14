@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\PatientResource;
 use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Http\Requests\StorePatientRequestApi;
@@ -15,7 +16,7 @@ class PatientsController extends BaseController
         try {
             // Listar Patients, opcionalmente filtrados por zona
             $patients = Patient::all();
-            return $this->sendResponse($patients, 'Patients retrieved successfully.');
+            return $this->sendResponse(new PatientResource($patients), 'Patients retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error retrieving patients.', $e->getMessage());
         }
@@ -25,7 +26,7 @@ class PatientsController extends BaseController
     {
         try {
             $patient = Patient::create($request->all());
-            return $this->sendResponse($patient, 'Patient created successfully.', 201);
+            return $this->sendResponse(new PatientResource($patient), 'Patient created successfully.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error creating patient.', $e->getMessage());
         }
@@ -35,7 +36,7 @@ class PatientsController extends BaseController
     {
         try {
             $patient = Patient::findOrFail($id);
-            return $this->sendResponse($patient, 'Patient retrieved successfully.');
+            return $this->sendResponse(new PatientResource($patient), 'Patient retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Patient not found.', null, 404);
         }
@@ -46,7 +47,7 @@ class PatientsController extends BaseController
         try {
             $patient = Patient::findOrFail($id);
             $patient->update($request->all());
-            return $this->sendResponse($patient, 'Patient updated successfully.');
+            return $this->sendResponse(new PatientResource($patient), 'Patient updated successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error updating patient.', $e->getMessage());
         }

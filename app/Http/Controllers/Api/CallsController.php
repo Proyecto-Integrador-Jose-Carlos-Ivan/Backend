@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\CallResource;
 use Illuminate\Http\Request;
 use App\Models\Call;
 use App\Http\Requests\StoreCallRequestApi;
@@ -13,7 +14,7 @@ class CallsController extends BaseController
         try {
             // Listar Calls. Se puede implementar filtrado por fecha, tipo, zona, etc.
             $calls = Call::all();
-            return $this->sendResponse($calls, 'Calls retrieved successfully.');
+            return $this->sendResponse(new CallResource($calls), 'Calls retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error retrieving calls.', $e->getMessage());
         }
@@ -23,7 +24,7 @@ class CallsController extends BaseController
     {
         try {
             $call = Call::create($request->all());
-            return $this->sendResponse($call, 'Call created successfully.', 201);
+            return $this->sendResponse(new CallResource($call), 'Call created successfully.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error creating call.', $e->getMessage());
         }
@@ -33,7 +34,7 @@ class CallsController extends BaseController
     {
         try {
             $call = Call::findOrFail($id);
-            return $this->sendResponse($call, 'Call retrieved successfully.');
+            return $this->sendResponse(new CallResource($call), 'Call retrieved successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Call not found.', null, 404);
         }
@@ -44,7 +45,7 @@ class CallsController extends BaseController
         try {
             $call = Call::findOrFail($id);
             $call->update($request->all());
-            return $this->sendResponse($call, 'Call updated successfully.');
+            return $this->sendResponse(new CallResource($call), 'Call updated successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Error updating call.', $e->getMessage());
         }
