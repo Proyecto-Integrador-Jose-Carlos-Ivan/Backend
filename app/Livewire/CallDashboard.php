@@ -3,12 +3,18 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Call;
+use App\Models\Zone;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Broadcast;
 
 class CallDashboard extends Component
 {
     public $date;
     public $zone;
     public $calls;
+
+    protected $listeners = ['echo:calls,CallCreated' => 'refreshCalls'];
 
     public function mount()
     {
@@ -28,31 +34,27 @@ class CallDashboard extends Component
 
     public function getCalls()
     {
-        // Dummy data for demonstration
-        $calls = [
-            ['id' => 1, 'date' => '2024-01-01', 'zone' => 'Zone A', 'type' => 'incoming'],
-            ['id' => 2, 'date' => '2024-01-01', 'zone' => 'Zone B', 'type' => 'outgoing'],
-            ['id' => 3, 'date' => '2024-01-02', 'zone' => 'Zone A', 'type' => 'incoming'],
-        ];
+        $query = Call::query();
 
-        // Apply filters
-        $filteredCalls = collect($calls)
-            ->when($this->date, function ($collection, $date) {
-                return $collection->filter(function ($call) use ($date) {
-                    return $call['date'] == $date;
-                });
-            })
-            ->when($this->zone, function ($collection, $zone) {
-                return $collection->filter(function ($call) use ($zone) {
-                    return $call['zone'] == $zone;
-                });
-            })->toArray();
+        if ($this->date) {
+            $query->whereDate('date', $this->date);
+        }
 
-        return $filteredCalls;
+        if ($this->zone) {
+            $query->where('zone_id', $this->zone);
+        }
+
+        return $query->get();
+    }
+
+    public function refreshCalls()
+    {
+        $this->calls = $this->getCalls();
     }
 
     public function render()
     {
-        return view('livewire.call-dashboard');
+        $zones = Zone::all();
+        return view('livewire.call-dashboard', ['zones' => $zones]);
     }
 }
