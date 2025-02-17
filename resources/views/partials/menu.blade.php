@@ -1,14 +1,14 @@
+<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+    <x-nav-link :href="route('operators.index')" :active="request()->routeIs('operators.index')">
+        {{ __('Operadors') }}
+    </x-nav-link>
+</div>
+<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+    <x-nav-link :href="route('zones.index')" :active="request()->routeIs('zones.index')">
+        {{ __('Zones') }}
+    </x-nav-link>
+</div>
 {{-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-    <x-nav-link :href="route('equips.index')" :active="request()->routeIs('equips.index')">
-        {{ __('Guia-Equips') }}
-    </x-nav-link>
-</div>
-<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-    <x-nav-link :href="route('estadis.index')" :active="request()->routeIs('estadis.index')">
-        {{ __('Estadis') }}
-    </x-nav-link>
-</div>
-<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
     <x-nav-link :href="route('partits.historic')" :active="request()->routeIs('partits.historic')">
         {{ __('Històric Partits') }}
     </x-nav-link>
