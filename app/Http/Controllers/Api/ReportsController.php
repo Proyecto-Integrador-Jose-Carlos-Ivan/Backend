@@ -36,12 +36,14 @@ class ReportsController extends Controller
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
 
-        return response($dompdf->output(), 200)
+        $response = response($dompdf->output(), 200)
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
             ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        return $response;
     }
 
     public function getEmergencies(Request $request)
