@@ -5,6 +5,7 @@ use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\Api\CallsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,9 +25,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':administrador'])->group(fun
 
     Route::resource('operators', OperatorController::class)->only(['index', 'show', 'edit', 'update', 'destroy', 'create', 'store']);
     Route::resource('zones', ZonesController::class)->only(['index', 'show', 'edit', 'update', 'destroy', 'create', 'store']);
-
+    Route::resource('calls', CallsController::class)->only(['index', 'show']);
+    Route::get('/calls', [CallsController::class, 'calls'])->name('calls.calls');
 });
-
-
 
 require __DIR__ . '/auth.php';

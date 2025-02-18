@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\CallResource;
+use App\Events\CallCreated;
 use Illuminate\Http\Request;
 use App\Models\Call;
 use App\Http\Requests\StoreCallRequestApi;
@@ -12,7 +13,6 @@ class CallsController extends BaseController
     public function index(Request $request)
     {
         try {
-            // Listar Calls. Se puede implementar filtrado por fecha, tipo, zona, etc.
             $calls = Call::all();
             return $this->sendResponse($calls, 'Calls retrieved successfully.');
         } catch (\Exception $e) {
@@ -24,6 +24,7 @@ class CallsController extends BaseController
     {
         try {
             $call = Call::create($request->all());
+            broadcast(new CallCreated($call))->toOthers();
             return $this->sendResponse($call, 'Call created successfully.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error creating call.', $e->getMessage());
@@ -60,5 +61,10 @@ class CallsController extends BaseController
         } catch (\Exception $e) {
             return $this->sendError('Error deleting call.', $e->getMessage());
         }
+    }
+
+    public function calls()
+    {
+        return view('calls.calls');
     }
 }

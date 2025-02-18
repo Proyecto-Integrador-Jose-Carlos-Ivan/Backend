@@ -19,7 +19,8 @@ class CallDashboard extends Component
     public function mount()
     {
         $this->date = now()->toDateString();
-        $this->calls = $this->getCalls();
+        $this->calls = Call::all();
+
     }
 
     public function updatedDate()
@@ -37,7 +38,7 @@ class CallDashboard extends Component
         $query = Call::query();
 
         if ($this->date) {
-            $query->whereDate('date', $this->date);
+            $query->whereDate('created_at', $this->date);
         }
 
         if ($this->zone) {
@@ -55,6 +56,6 @@ class CallDashboard extends Component
     public function render()
     {
         $zones = Zone::all();
-        return view('livewire.call-dashboard', ['zones' => $zones]);
+        return view('livewire.call-dashboard', ['zones' => $zones , 'calls' => $this->calls]);
     }
 }

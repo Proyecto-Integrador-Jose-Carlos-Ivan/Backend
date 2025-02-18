@@ -8,12 +8,12 @@
         {{ __('Zonas') }}
     </x-nav-link>
 </div>
-{{-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-    <x-nav-link :href="route('partits.historic')" :active="request()->routeIs('partits.historic')">
-        {{ __('Històric Partits') }}
+<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+    <x-nav-link :href="route('calls.calls')" :active="request()->routeIs('calls.calls')">
+        {{ __('Llamadas') }}
     </x-nav-link>
 </div>
-<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+{{-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
     <x-nav-link :href="route('partits.jornades')" :active="request()->routeIs('partits.jornades')">
         {{ __('Calendari de jornades') }}
     </x-nav-link>

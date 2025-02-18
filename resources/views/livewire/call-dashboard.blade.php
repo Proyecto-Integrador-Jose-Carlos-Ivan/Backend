@@ -1,41 +1,62 @@
-<div>
-    <h1>Call Dashboard</h1>
+<div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold my-6 text-gray-800">Call Dashboard</h1>
 
-    <div>
-        <label for="date">Date:</label>
-        <input type="date" id="date" wire:model.live="date">
+    <div class="mb-6 flex space-x-4">
+        <div>
+            <label for="date" class="block text-sm font-medium text-gray-700">Fecha</label>
+            <input type="date" id="date" wire:model="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+        </div>
+
+        <div>
+            <label for="zone" class="block text-sm font-medium text-gray-700">Zona</label>
+            <select id="zone" wire:model="zone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <option value="">Todas las Zonas</option>
+                @foreach ($zones as $zone)
+                    <option value="{{ $zone->id }}">{{ $zone->name }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
-    <div>
-        <label for="zone">Zone:</label>
-        <select id="zone" wire:model.live="zone">
-            <option value="">All Zones</option>
-            @foreach ($zones as $zone)
-                <option value="{{ $zone->id }}">{{ $zone->name }}</option>
-            @endforeach
-        </select>
-    </div>
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+        Llamadas para {{ $date }} en {{ $zone->name ?? 'Todas las Zonas' }}
+    </h2>
 
-    <h2>Calls for {{ $date }} in {{ $zone ? \App\Models\Zone::find($zone)->name : 'All Zones' }}</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Date</th>
-                <th>Zone</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($calls as $call)
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
                 <tr>
-                    <td>{{ $call->id }}</td>
-                    <td>{{ $call->date }}</td>
-                    <td>{{ $call->zone->name }}</td>
-                    <td>{{ $call->type }}</td>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Hora</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Operador ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sentido</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subtipo</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aviso ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Creado</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actualizado</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Zona ID</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach ($calls as $call)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->fecha_hora }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->operador->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->paciente->nombre }}</td>
+                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->descripcion }}</td> --}}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->sentido }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->categoria }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->subtipo }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->aviso_id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->created_at }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->updated_at }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->zone_id }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -13,7 +13,6 @@ class ContactsController extends BaseController
     public function index(Request $request, $patientId)
     {
         try {
-            // Listar contactos de un paciente
             $contacts = Contact::where('paciente_id', $patientId)->get();
             return $this->sendResponse($contacts, 'Contacts retrieved successfully.');
         } catch (\Exception $e) {

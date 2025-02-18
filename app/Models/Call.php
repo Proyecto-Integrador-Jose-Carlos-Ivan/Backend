@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +10,6 @@ class Call extends Model
     use HasFactory;
     protected $table = 'llamadas';
 
-
     protected $fillable = [
         'fecha_hora',
         'operador_id',
@@ -21,6 +19,7 @@ class Call extends Model
         'categoria',
         'subtipo',
         'aviso_id',
+        'zone_id',
     ];
 
     public function operador()
@@ -37,4 +36,10 @@ class Call extends Model
     {
         return $this->belongsTo(Alert::class, 'aviso_id');
     }
+
+    public function zona()
+    {
+        return $this->belongsTo(Zone::class, 'zone_id');
+    }
+
 }
