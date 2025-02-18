@@ -34,9 +34,15 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nom</th>
+                <th>Nombre</th>
                 <th>DNI</th>
-                <th>Telèfon</th>
+                <th>SIP</th>
+                <th>Telefono</th>
+                <th>Zona</th>
+                <th>Email</th>
+                <th>Situacion Personal</th>
+                <th>Situacion Sanitaria</th>
+                <th>Situacion Economica</th>
             </tr>
         </thead>
         <tbody>
@@ -45,7 +51,14 @@
                 <td>{{ $patient->id }}</td>
                 <td>{{ $patient->nombre }}</td>
                 <td>{{ $patient->dni }}</td>
+                <td>{{ $patient->sip }}</td>
                 <td>{{ $patient->telefono }}</td>
+                <td>{{ $patient->zona->name }}</td>
+                <td>{{ $patient->email }}</td>
+                <td>{{ $patient->situacion_personal }}</td>
+                <td>{{ $patient->situacion_sanitaria }}</td>
+                <td>{{ $patient->situacion_economica }}</td>
+
             </tr>
             @endforeach
         </tbody>

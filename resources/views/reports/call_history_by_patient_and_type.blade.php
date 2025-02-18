@@ -38,10 +38,12 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Data i Hora</th>
+                <th>Fecha i Hora</th>
                 <th>Categoria</th>
                 <th>Sentit</th>
                 <th>Zona</th>
+                <th>Operador</th>
+
             </tr>
         </thead>
         <tbody>
@@ -51,7 +53,8 @@
                 <td>{{ $call->fecha_hora }}</td>
                 <td>{{ $call->categoria }}</td>
                 <td>{{ $call->sentido }}</td>
-                <td>{{ $call->zona->nombre ?? 'N/A' }}</td>
+                <td>{{ $call->zona->name ?? 'N/A' }}</td>
+                <td>{{ $call->operador->name }}</td>
             </tr>
             @endforeach
         </tbody>

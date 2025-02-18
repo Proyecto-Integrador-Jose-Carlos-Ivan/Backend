@@ -279,12 +279,12 @@ class ReportsController extends Controller
 
     public function getCallHistoryByPatientAndType(Request $request, $patientId)
     {
-        $type = $request->query('type') ?: null;
+        $type = $request->query('tipo') ?: null;
 
         $callsQuery = Call::where('paciente_id', $patientId);
 
         if ($type) {
-            $callsQuery->where('categoria', $type);
+            $callsQuery->where('categoria', $type); 
         }
 
         $calls = $callsQuery->get();
