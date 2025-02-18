@@ -7,7 +7,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Api\CallsController;
-use App\Http\Controllers\Api\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
