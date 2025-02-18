@@ -23,7 +23,7 @@ class ReportsController extends Controller
     {
         $relation = $isIncoming ? 'entrante' : 'saliente';
         return $query->whereHas($relation, function ($q) use ($type) {
-            $q->where('type', $type);
+            $q->where('sentido', $type);
         });
     }
 
@@ -47,10 +47,10 @@ class ReportsController extends Controller
     {
         $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
         $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
-        $type = $request->query('type');
+        $type = $request->query('sentido');
 
         $callsQuery = Call::query();
-        $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
+        // $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
         if ($type) {
             $callsQuery = $this->applyTypeFilter($callsQuery, $type, true);
         }

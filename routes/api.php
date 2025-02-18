@@ -50,6 +50,7 @@ Route::middleware(['auth:sanctum','api'])->group(function () {
     Route::get('reports/patients/{id}/history', [ReportsController::class, 'getPatientHistory']);
     Route::get('reports/scheduled-calls', [ReportsController::class, 'getScheduledCalls']);
     Route::get('reports/done-calls', [ReportsController::class, 'doneCalls']);
+    
 
 
 
