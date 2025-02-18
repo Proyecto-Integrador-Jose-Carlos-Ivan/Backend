@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Api\CallsController;
+use App\Http\Controllers\Api\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,5 +29,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':administrador'])->group(fun
     Route::resource('calls', CallsController::class)->only(['index', 'show']);
     Route::get('/calls', [CallsController::class, 'calls'])->name('calls.calls');
 });
+
+Route::get('api/login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('api/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
 
 require __DIR__ . '/auth.php';

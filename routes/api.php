@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PatientsController;
 use App\Http\Controllers\Api\ContactsController;
 use App\Http\Controllers\Api\CallsController;
@@ -10,14 +9,6 @@ use App\Http\Controllers\Api\AlertsController;
 use App\Http\Controllers\Api\OperatorsController;
 use App\Http\Controllers\Api\ZonesController;
 use App\Http\Controllers\Api\ReportsController;
-
-
-Route::get('login', function (){
-    return view('auth.login');
-})->name('auth.basic.login');
-
-
-Route::post('login/basic', [AuthController::class, 'login'])->name('auth.basic.login');
 
 Route::get('/user', function (Request $request) {
     return response()->json($request->user());
