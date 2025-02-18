@@ -4,163 +4,167 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\ReportService;
+use Carbon\Carbon;
+use Dompdf\Dompdf;
+use App\Models\Call;
+use App\Models\Patient;
+use App\Models\Alert;
+use Illuminate\Support\Facades\View; // Import View
+
 
 class ReportsController extends Controller
 {
-    protected $reportService;
-
-    public function __construct(ReportService $reportService)
+    private function applyDateFilters($query, $startDate, $endDate)
     {
-        $this->reportService = $reportService;
+        return $query->whereBetween('fecha_hora', [$startDate, $endDate]);
     }
 
-    // Informe de actuaciones por emergències
-    public function emergencies(Request $request)
+    private function applyTypeFilter($query, $type, $isIncoming)
     {
-        // Lógica para generar informe de emergencias
-        return response()->json(['message' => 'Informe de emergencias']);
+        $relation = $isIncoming ? 'entrante' : 'saliente';
+        return $query->whereHas($relation, function ($q) use ($type) {
+            $q->where('type', $type);
+        });
     }
 
-    // Llistat de pacients ordenats per cognoms
-    public function patients(Request $request)
+    private function generatePdf($view, $data, $filename)
     {
-        // Lógica para generar listado de pacientes
-        return response()->json(['message' => 'Listado de pacientes']);
+        $dompdf = new Dompdf();
+        $html = View::make($view, $data)->render();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        return response($dompdf->output(), 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
-    
-    // Informe de cridades previstes per a un dia amb filtres i exportació
-    public function scheduledCalls(Request $request)
+
+    public function getEmergencies(Request $request)
     {
-        // Recollida dels filtres
-        $date = $request->query('date');
-        $zone = $request->query('zone');
-        $callType = $request->query('call_type');
-        $export = $request->query('export');
+        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
+        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
+        $type = $request->query('type');
 
-        // Exemple de dades fictícies
-        $data = [
-            ['id' => 1, 'date' => '2025-02-18', 'zone' => 'North', 'type' => 'scheduled', 'detail' => 'Llamada 1'],
-            // ... altre dades
-        ];
+        $callsQuery = Call::query();
+        $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
+        if ($type) {
+            $callsQuery = $this->applyTypeFilter($callsQuery, $type, true);
+        }
+        $calls = $callsQuery->get();
 
-        // Aplicació dels filtres
-        if ($date) {
-            $data = array_filter($data, fn($item) => $item['date'] === $date);
-        }
-        if ($zone) {
-            $data = array_filter($data, fn($item) => $item['zone'] === $zone);
-        }
-        if ($callType) {
-            $data = array_filter($data, fn($item) => $item['type'] === $callType);
-        }
-
-        // Exportació de dades en PDF o CSV
-        if ($export === 'pdf') {
-            return $this->reportService->exportToPdf('scheduled_calls', $data);
-        } elseif ($export === 'csv') {
-            $csvContent = "id,date,zone,type,detail\n";
-            foreach ($data as $row) {
-                $csvContent .= "{$row['id']},{$row['date']},{$row['zone']},{$row['type']},{$row['detail']}\n";
-            }
-            return response($csvContent, 200)
-                    ->header('Content-Type', 'text/csv')
-                    ->header('Content-Disposition', 'attachment; filename="scheduled_calls.csv"');
-        }
-        
-        return response()->json([
-            'message' => 'Llamadas planificadas para el día',
-            'data' => array_values($data)
-        ]);
+        $data = compact('calls', 'startDate', 'endDate');
+        return $this->generatePdf('reports.emergencies', $data, 'emergencies_report.pdf');
     }
-    
-    // Informe de cridades fetes per a un dia amb filtres i exportació
+
+    public function getSocials(Request $request)
+    {
+        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
+        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
+        $type = $request->query('type');
+
+        $callsQuery = Call::query();
+        $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
+        if ($type) {
+            $callsQuery = $this->applyTypeFilter($callsQuery, $type, true);
+        }
+        $calls = $callsQuery->get();
+
+        $data = compact('calls', 'startDate', 'endDate');
+        return $this->generatePdf('reports.socials', $data, 'socials_report.pdf');
+    }
+
+    public function getMonitorings(Request $request)
+    {
+        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
+        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
+        $type = $request->query('type');
+
+        $callsQuery = Call::query();
+        $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
+        if ($type) {
+            $callsQuery = $this->applyTypeFilter($callsQuery, $type, false);
+        }
+        $calls = $callsQuery->get();
+
+        $data = compact('calls', 'startDate', 'endDate');
+        return $this->generatePdf('reports.monitoring', $data, 'monitoring_report.pdf');
+    }
+
+    public function getAllPatients(Request $request)
+    {
+        $patients = Patient::query();
+
+        foreach ($request->query() as $key => $value) {
+            $patients->where($key, $value);
+        }
+
+        $patients = $patients->get();
+        $data = compact('patients');
+        return $this->generatePdf('reports.patients', $data, 'patients_report.pdf');
+    }
+
+    public function getPatientHistory(Request $request, $id)
+    {
+        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
+        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
+        $type = $request->query('type');
+
+        $callsQuery = Call::where('patientId', $id);
+        $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
+        if ($type) {
+            $callsQuery = $this->applyTypeFilter($callsQuery, $type, true);
+        }
+        $calls = $callsQuery->get();
+
+        $patient = Patient::find($id);
+        $data = compact('calls', 'patient', 'startDate', 'endDate');
+        return $this->generatePdf('reports.patient_history', $data, 'patient_history_report.pdf');
+    }
+
+
+    public function getScheduledCalls(Request $request)
+    {
+        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
+        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
+        $zona_id = $request->query('zona_id') ?: null;
+
+        if ($zona_id) {
+            $alertsWithCalls = Alert::where('zona_id', $zona_id)->whereBetween('date', [$startDate, $endDate])->get();
+            $alertsWithoutCalls = Alert::where('zona_id', $zona_id)->whereBetween('date', [$startDate, $endDate])->get();
+        } else {
+            $alertsWithCalls = Alert::whereBetween('fecha', [$startDate, $endDate])->get();
+            $alertsWithoutCalls = Alert::whereBetween('fecha', [$startDate, $endDate])->get();
+        }
+
+        $data = compact('alertsWithCalls', 'alertsWithoutCalls', 'startDate', 'endDate');
+        return $this->generatePdf('reports.scheduled_calls', $data, 'scheduled_calls_report.pdf');
+    }
+
     public function doneCalls(Request $request)
     {
-        // Recollida dels filtres
-        $date = $request->query('date');
-        $zone = $request->query('zone');
-        $callType = $request->query('call_type');
-        $export = $request->query('export');
+        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
+        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
+        $type = $request->query('type');
 
-        // Exemple de dades fictícies
-        $data = [
-            ['id' => 1, 'date' => '2025-02-18', 'zone' => 'South', 'type' => 'done', 'detail' => 'Llamada A'],
-            // ... altre dades
-        ];
+        $incomingCallsQuery = Call::query()->whereHas('entrante');
+        $outgoingCallsQuery = Call::query()->whereHas('saliente');
 
-        // Aplicació dels filtres
-        if ($date) {
-            $data = array_filter($data, fn($item) => $item['date'] === $date);
-        }
-        if ($zone) {
-            $data = array_filter($data, fn($item) => $item['zone'] === $zone);
-        }
-        if ($callType) {
-            $data = array_filter($data, fn($item) => $item['type'] === $callType);
+        $incomingCallsQuery = $this->applyDateFilters($incomingCallsQuery, $startDate, $endDate);
+        $outgoingCallsQuery = $this->applyDateFilters($outgoingCallsQuery, $startDate, $endDate);
+
+        if ($type) {
+            $incomingCallsQuery = $this->applyTypeFilter($incomingCallsQuery, $type, true);
+            $outgoingCallsQuery = $this->applyTypeFilter($outgoingCallsQuery, $type, false);
         }
 
-        // Exportació de dades en PDF o CSV
-        if ($export === 'pdf') {
-            return $this->reportService->exportToPdf('done_calls', $data);
-        } elseif ($export === 'csv') {
-            $csvContent = "id,date,zone,type,detail\n";
-            foreach ($data as $row) {
-                $csvContent .= "{$row['id']},{$row['date']},{$row['zone']},{$row['type']},{$row['detail']}\n";
-            }
-            return response($csvContent, 200)
-                    ->header('Content-Type', 'text/csv')
-                    ->header('Content-Disposition', 'attachment; filename="done_calls.csv"');
-        }
-        
-        return response()->json([
-            'message' => 'Llamadas realizadas para el día',
-            'data' => array_values($data)
-        ]);
-    }
-    
-    // Històric de cridades d’un pacient amb filtres i exportació
-    public function patientHistory(Request $request, $id)
-    {
-        // Recollida dels filtres
-        $date = $request->query('date');
-        $zone = $request->query('zone');
-        $callType = $request->query('call_type');
-        $export = $request->query('export');
+        $incomingCalls = $incomingCallsQuery->get();
+        $outgoingCalls = $outgoingCallsQuery->get();
 
-        // Exemple de dades fictícies
-        $data = [
-            ['id' => 1, 'patient_id' => $id, 'date' => '2025-02-18', 'zone' => 'East', 'type' => 'done', 'detail' => 'Llamada X'],
-            // ... altre dades
-        ];
-
-        // Aplicació dels filtres
-        if ($date) {
-            $data = array_filter($data, fn($item) => $item['date'] === $date);
-        }
-        if ($zone) {
-            $data = array_filter($data, fn($item) => $item['zone'] === $zone);
-        }
-        if ($callType) {
-            $data = array_filter($data, fn($item) => $item['type'] === $callType);
-        }
-
-        // Exportació de dades en PDF o CSV
-        if ($export === 'pdf') {
-            return $this->reportService->exportToPdf('patient_history', $data);
-        } elseif ($export === 'csv') {
-            $csvContent = "id,patient_id,date,zone,type,detail\n";
-            foreach ($data as $row) {
-                $csvContent .= "{$row['id']},{$row['patient_id']},{$row['date']},{$row['zone']},{$row['type']},{$row['detail']}\n";
-            }
-            return response($csvContent, 200)
-                    ->header('Content-Type', 'text/csv')
-                    ->header('Content-Disposition', 'attachment; filename="patient_history.csv"');
-        }
-        
-        return response()->json([
-            'message' => "Historial de llamadas para el paciente $id",
-            'data' => array_values($data)
-        ]);
+        $data = compact('incomingCalls', 'outgoingCalls', 'startDate', 'endDate');
+        return $this->generatePdf('reports.done_calls', $data, 'done_calls_report.pdf');
     }
 }

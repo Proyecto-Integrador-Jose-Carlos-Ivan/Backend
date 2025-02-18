@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Api\CallsController;
+use App\Http\Controllers\Api\ReportsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,5 +37,12 @@ Route::middleware(['auth', RoleMiddleware::class . ':administrador'])->group(fun
 Route::get('api/login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('api/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
+Route::get('reports/emergencies', action: [ReportsController::class, 'getEmergencies']);
+Route::get('reports/socials', [ReportsController::class, 'getSocials']);
+Route::get('reports/monitoring', [ReportsController::class, 'getMonitorings']);
+Route::get('reports/patients', [ReportsController::class, 'getAllPatients']);
+Route::get('reports/patients/{id}/history', [ReportsController::class, 'getPatientHistory']);
+Route::get('reports/scheduled-calls', [ReportsController::class, 'getScheduledCalls']);
+Route::get('reports/done-calls', [ReportsController::class, 'doneCalls']);
 
 require __DIR__ . '/auth.php';

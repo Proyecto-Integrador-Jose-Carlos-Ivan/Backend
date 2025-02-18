@@ -47,7 +47,7 @@ class AuthController extends BaseController
                 return $this->sendResponse($result, 'User signed in with Google.');
             } else {
                 // If the user doesn't exist, return an error
-                return $this->sendError('Google Auth Error', 'User not found. Please sign up first.', 404);
+                return $this->sendError('Google Auth Error', 'Usuario no encontrado. Please sign up first.', 404);
             }
 
         } catch (\Exception $e) {
