@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ZonesController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +12,9 @@ use App\Http\Controllers\Api\AuthController;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('api/login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('api/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
