@@ -13,11 +13,18 @@ use App\Http\Controllers\Api\AuthController;
 
 Route::get('/user', function (Request $request) {
     return response()->json($request->user());
-})->middleware('auth:sanctum','api');
+})->middleware('auth:sanctum', 'api');
+
+Route::get('reports/emergency-actions-by-zone/{zoneId}', action: [ReportsController::class, 'getEmergencyActionsByZone']);
+Route::get('reports/scheduled-calls-by-date/{date}', [ReportsController::class, 'getScheduledCallsByDate']);
+Route::get('reports/done-calls-by-date/{date}', [ReportsController::class, 'getDoneCallsByDate']);
+Route::get('reports/call-history-by-patient-and-type/{patientId}', [ReportsController::class, 'getCallHistoryByPatientAndType']);
+Route::get('reports/patients-list', [ReportsController::class, 'getPatientsList']);
+Route::get('reports/emergencies', [ReportsController::class, 'getEmergencies']);
 
 Route::post('login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:sanctum','api'])->group(function () {
+Route::middleware(['auth:sanctum', 'api'])->group(function () {
 
     // Pacientes
     Route::apiResource('patients', PatientsController::class);
@@ -27,34 +34,64 @@ Route::middleware(['auth:sanctum','api'])->group(function () {
     Route::post('patients/{id}/contacts', [ContactsController::class, 'store']);
     Route::apiResource('contacts', ContactsController::class)->except(['index', 'store']);
 
+
     // Llamadas
-    Route::apiResource('calls', CallsController::class);
+    Route::apiResource('calls', CallsController::class)->names([
+        'index' => 'calls.api.index',
+        'show' => 'calls.api.show',
+        'edit' => 'calls.api.edit',
+        'update' => 'calls.api.update',
+        'destroy' => 'calls.api.destroy',
+        'create' => 'calls.api.create',
+        'store' => 'calls.api.store',
+    ]);
 
     // Avisos / Alarmes
-    Route::apiResource('alerts', AlertsController::class);
+    Route::apiResource('alerts', AlertsController::class)->names([
+        'index' => 'alerts.api.index',
+        'show' => 'alerts.api.show',
+        'edit' => 'alerts.api.edit',
+        'update' => 'alerts.api.update',
+        'destroy' => 'alerts.api.destroy',
+        'create' => 'alerts.api.create',
+        'store' => 'alerts.api.store',
+    ]);
 
     // Operadores
-    Route::apiResource('operators', OperatorsController::class);
+    Route::apiResource('operators', OperatorsController::class)->names([
+        'index' => 'operators.api.index',
+        'show' => 'operators.api.show',
+        'edit' => 'operators.api.edit',
+        'update' => 'operators.api.update',
+        'destroy' => 'operators.api.destroy',
+        'create' => 'operators.api.create',
+        'store' => 'operators.api.store',
+    ]);
 
     // Zonas
-    Route::apiResource('zones', ZonesController::class);
+    Route::apiResource('zones', ZonesController::class)->names([
+        'index' => 'zones.api.index',
+        'show' => 'zones.api.show',
+        'edit' => 'zones.api.edit',
+        'update' => 'zones.api.update',
+        'destroy' => 'zones.api.destroy',
+        'create' => 'zones.api.create',
+        'store' => 'zones.api.store',
+    ]);
 
     // Informes
-    Route::get('operators/{id}/calls', [OperatorsController::class, 'getCallHistoryByOperator']);
-    Route::get('patients/{id}/calls', [PatientsController::class, 'getCallHistoryByPatient']);
+    // Route::get('operators/{id}/calls', [OperatorsController::class, 'getCallHistoryByOperator']);
+    // Route::get('patients/{id}/calls', [PatientsController::class, 'getCallHistoryByPatient']);
 
-    Route::get('reports/emergencies', [ReportsController::class, 'getEmergencies']);
-    Route::get('reports/socials', [ReportsController::class, 'getSocials']);
-    Route::get('reports/monitoring', [ReportsController::class, 'getMonitorings']);
-    Route::get('reports/patients', [ReportsController::class, 'getAllPatients']);
-    Route::get('reports/patients/{id}/history', [ReportsController::class, 'getPatientHistory']);
-    Route::get('reports/scheduled-calls', [ReportsController::class, 'getScheduledCalls']);
-    Route::get('reports/done-calls', [ReportsController::class, 'doneCalls']);
-    Route::get('reports/scheduled-and-done-calls', [ReportsController::class, 'getScheduledAndDoneCalls']);
+    // 
+    // Route::get('reports/socials', [ReportsController::class, 'getSocials']);
+    // Route::get('reports/monitoring', [ReportsController::class, 'getMonitorings']);
+    // Route::get('reports/patients', [ReportsController::class, 'getAllPatients']);
+    // Route::get('reports/patients/{id}/history', [ReportsController::class, 'getPatientHistory']);
+    // Route::get('reports/scheduled-calls', [ReportsController::class, 'getScheduledCalls']);
+    // Route::get('reports/done-calls', [ReportsController::class, 'doneCalls']);
+    // Route::get('reports/scheduled-and-done-calls', [ReportsController::class, 'getScheduledAndDoneCalls']);
 
-    Route::get('reports/emergency-actions-by-zone/{zoneId}', [ReportsController::class, 'getEmergencyActionsByZone']);
-    Route::get('reports/patients-list', [ReportsController::class, 'getPatientsList']);
-    Route::get('reports/scheduled-calls-by-date/{date}', [ReportsController::class, 'getScheduledCallsByDate']);
-    Route::get('reports/done-calls-by-date/{date}', [ReportsController::class, 'getDoneCallsByDate']);
-    Route::get('reports/call-history-by-patient-and-type/{patientId}', [ReportsController::class, 'getCallHistoryByPatientAndType']);
+
+
 });
