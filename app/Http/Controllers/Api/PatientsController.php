@@ -22,7 +22,7 @@ class PatientsController extends BaseController
         }
     }
 
-    public function store(StorePatientRequestApi $request)
+    public function store(Request $request)
     {
         try {
             $patient = Patient::create($request->all());

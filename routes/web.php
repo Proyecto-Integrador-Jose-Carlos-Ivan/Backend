@@ -44,5 +44,12 @@ Route::get('reports/patients', [ReportsController::class, 'getAllPatients']);
 Route::get('reports/patients/{id}/history', [ReportsController::class, 'getPatientHistory']);
 Route::get('reports/scheduled-calls', [ReportsController::class, 'getScheduledCalls']);
 Route::get('reports/done-calls', [ReportsController::class, 'doneCalls']);
+Route::get('reports/scheduled-and-done-calls', [ReportsController::class, 'getScheduledAndDoneCalls']);
 
+
+    Route::get('reports/emergency-actions-by-zone/{zoneId}', [ReportsController::class, 'getEmergencyActionsByZone']);
+    Route::get('reports/patients-list', [ReportsController::class, 'getPatientsList']);
+    Route::get('reports/scheduled-calls-by-date/{date}', [ReportsController::class, 'getScheduledCallsByDate']);
+    Route::get('reports/done-calls-by-date/{date}', [ReportsController::class, 'getDoneCallsByDate']);
+    Route::get('reports/call-history-by-patient-and-type/{patientId}', [ReportsController::class, 'getCallHistoryByPatientAndType']);
 require __DIR__ . '/auth.php';
