@@ -18,6 +18,7 @@
                     @isset($errorMessage)
                         window.opener.postMessage({ error: "{{ $errorMessage }}", success: false }, 'http://localhost:5174');
                         window.opener.postMessage({ error: "{{ $errorMessage }}", success: false }, 'http://localhost:5175');
+                        window.opener.postMessage({ error: "{{ $errorMessage }}", success: false }, 'https://frontend.projectogb4.ddaw.es/');
 
                         window.close();
                     @endisset
@@ -25,6 +26,7 @@
                         // Enviar el token a la ventana principal
                         window.opener.postMessage({ token: "{{ $token }}", user: @json($user), success: true }, 'http://localhost:5174');
                         window.opener.postMessage({ token: "{{ $token }}", user: @json($user), success: true }, 'http://localhost:5175');
+                        window.opener.postMessage({ token: "{{ $token }}", user: @json($user), success: true }, 'https://frontend.projectogb4.ddaw.es/');
 
                         window.close();
                     @endisset
@@ -32,6 +34,7 @@
                     console.error("Error in popup:", e);
                     window.opener.postMessage({ error: e.message, success: false }, 'http://localhost:5174');
                     window.opener.postMessage({ error: e.message, success: false }, 'http://localhost:5175');
+                    window.opener.postMessage({ error: e.message, success: false }, 'https://frontend.projectogb4.ddaw.es/');
 
                     window.close();
                 }
