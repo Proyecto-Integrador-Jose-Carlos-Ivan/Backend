@@ -27,32 +27,24 @@ class AuthController extends BaseController
      */
     public function handleGoogleCallback()
     {
-        try {
-            $googleUser = Socialite::driver('google')->user();
+        $googleUser = Socialite::driver('google')->stateless()->user();
 
-            // Find the user by google_id
-            $user = User::where('email', $googleUser->email)->first();
-
-            if ($user) {
-                // If the user exists, log them in
-                Auth::login($user);
-
-                $token = $user->createToken('API Token')->plainTextToken;
-
-                $result = [
-                    'token' => $token,
-                    'name' => $user->name,
-                ];
-
-                return $this->sendResponse($result, 'User signed in with Google.');
-            } else {
-                // If the user doesn't exist, return an error
-                return $this->sendError('Google Auth Error', 'Usuario no encontrado. Please sign up first.', 404);
-            }
-
-        } catch (\Exception $e) {
-            return $this->sendError('Google Auth Error', $e->getMessage(),  401);
+        $user = User::where('email', $googleUser->getEmail())->first();
+        $errorMessage = 'User not found in the system. Please, contact the coordinator.';
+        if (!$user) {
+            return response()->view('auth.popup', compact('errorMessage'));
         }
+
+        // Actualiza la información del usuario si es necesario
+        $user->update([
+            'google_id' => $googleUser->getId(),
+            'avatar' => $googleUser->getAvatar(),
+        ]);
+
+        // Generate token for the user
+        $token = $user->createToken('MyAuthApp')->plainTextToken;
+
+        return response()->view('auth.popup', compact('token', 'user'));
     }
 
     public function login(Request $request)
