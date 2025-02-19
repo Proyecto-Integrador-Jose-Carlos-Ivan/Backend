@@ -34,7 +34,6 @@ class UserFactory extends Factory
             'lenguas' => fake()->randomElement(['Catalan', 'Spanish', 'English', 'French']),
             'fecha_contratacion' => fake()->date(),
             'fecha_baja' => fake()->optional()->date(),
-            'role' => fake()->randomElement(['admin', 'usuario']),
             'remember_token' => Str::random(10),
         ];
     }

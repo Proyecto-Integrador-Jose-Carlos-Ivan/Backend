@@ -39,12 +39,7 @@ class CallsController extends BaseController
      */
     public function index(Request $request)
     {
-        try {
-            $calls = Call::all();
-            return $this->sendResponse($calls, 'Llamadas recuperadas exitosamente.');
-        } catch (\Exception $e) {
-            return $this->sendError('Error al recuperar las llamadas.', $e->getMessage());
-        }
+        return CallResource::collection(Call::all());
     }
 
     /**

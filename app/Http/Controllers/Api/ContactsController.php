@@ -45,12 +45,14 @@ class ContactsController extends BaseController
      */
     public function index(Request $request, $patientId)
     {
-        try {
-            $contacts = Contact::where('paciente_id', $patientId)->get();
-            return $this->sendResponse($contacts, 'Contactos recuperados exitosamente.');
-        } catch (\Exception $e) {
-            return $this->sendError('Error al recuperar los contactos.', $e->getMessage());
-        }
+        // try {
+        //     $contacts = Contact::where('paciente_id', $patientId)->get();
+        //     return $this->sendResponse($contacts, 'Contactos recuperados exitosamente.');
+        // } catch (\Exception $e) {
+        //     return $this->sendError('Error al recuperar los contactos.', $e->getMessage());
+        // }
+
+        return ContactPersonResource::collection(Contact::where('paciente_id', $patientId)->get());
     }
 
     /**

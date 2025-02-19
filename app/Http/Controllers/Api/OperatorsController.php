@@ -37,7 +37,7 @@ class OperatorsController extends BaseController
     public function index(Request $request)
     {
         try {
-            $operators = User::all();
+            $operators = User::where('role', 'operador')->get();
             return $this->sendResponse($operators, 'Operadores recuperados exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Error al recuperar los operadores.', $e->getMessage());
