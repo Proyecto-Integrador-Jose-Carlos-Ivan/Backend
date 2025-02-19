@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost','http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175','midominiovue.com'],
+    'allowed_origins' => ['http://localhost','http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175','https://frontend.projectogb4.ddaw.es'],
 
     'allowed_origins_patterns' => [],
 
