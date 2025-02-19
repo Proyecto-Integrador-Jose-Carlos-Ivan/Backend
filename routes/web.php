@@ -34,8 +34,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':administrador'])->group(fun
     Route::get('/calls', [CallsController::class, 'calls'])->name('calls.calls');
 });
 
-Route::get('api/login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('api/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+// Route::get('api/login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+// Route::get('api/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
 // Route::get('reports/emergencies', action: [ReportsController::class, 'getEmergencies']);
 // Route::get('reports/socials', [ReportsController::class, 'getSocials']);

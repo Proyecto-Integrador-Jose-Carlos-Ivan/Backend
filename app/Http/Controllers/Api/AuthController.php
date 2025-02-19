@@ -47,7 +47,7 @@ class AuthController extends BaseController
         return response()->view('auth.popup', compact('token', 'user'));
     }
 
-    public function login(Request $request)
+    public function loginCredentials(Request $request)
     {
         // Validación básica de campos
         $credentials = $request->validate([
@@ -65,11 +65,10 @@ class AuthController extends BaseController
 
         $result = [
             'token' => $token,
-            'name'  => $user->name,
+            'user'  => $user,
         ];
 
-        return $this->sendResponse($result, 'Usuario autenticado correctamente.');
-    }
+        return $this->sendResponse($result, 'User signed in');    }
 
     /**
      * Cierra la sesión del usuario.

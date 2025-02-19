@@ -22,7 +22,7 @@ Route::get('reports/call-history-by-patient-and-type/{patientId}', [ReportsContr
 Route::get('reports/patients-list', [ReportsController::class, 'getPatientsList']);
 Route::get('reports/emergencies', [ReportsController::class, 'getEmergencies']);
 
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'loginCredentials']);
 
 Route::middleware(['auth:sanctum', 'api'])->group(function () {
 
