@@ -21,7 +21,7 @@ class AuthController extends BaseController
      * Redirige al usuario a la página de inicio de sesión de Google.
      *
      * @OA\Get(
-     *     path="/api/auth/google/redirect",
+     *     path="/api/google/redirect",
      *     summary="Redirige a Google para iniciar sesión",
      *     description="Redirige al usuario a la página de inicio de sesión de Google.",
      *     tags={"Autenticación"},
@@ -42,7 +42,7 @@ class AuthController extends BaseController
      * Obtiene la información del usuario de Google.
      *
      * @OA\Get(
-     *     path="/api/auth/google/callback",
+     *     path="/api/google/callback",
      *     summary="Gestiona la respuesta de Google tras el inicio de sesión",
      *     description="Obtiene la información del usuario de Google tras el inicio de sesión y genera un token.",
      *     tags={"Autenticación"},
@@ -84,14 +84,14 @@ class AuthController extends BaseController
 
     /**
      * @OA\Post(
-     *     path="/api/auth/login",
+     *     path="/api/login",
      *     summary="Inicia sesión con credenciales",
      *     description="Inicia sesión con un email y contraseña.",
      *     tags={"Autenticación"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="email", type="string", format="email", example="usuario@example.com"),
+     *             @OA\Property(property="email", type="string", format="email", example="admin@example.com"),
      *             @OA\Property(property="password", type="string", example="password")
      *         )
      *     ),
@@ -135,7 +135,7 @@ class AuthController extends BaseController
      * Cierra la sesión del usuario.
      *
      *  @OA\Post(
-     *     path="/api/auth/logout",
+     *     path="/api/logout",
      *     summary="Cierra la sesión del usuario",
      *     description="Cierra la sesión del usuario actual, invalidando el token.",
      *     tags={"Autenticación"},

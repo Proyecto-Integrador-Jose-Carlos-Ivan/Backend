@@ -25,6 +25,7 @@ class AlertsController extends BaseController
      *     summary="Lista todas las alertas",
      *     description="Obtiene una lista de todas las alertas disponibles.",
      *     tags={"Alertas"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Operación exitosa",
@@ -54,6 +55,7 @@ class AlertsController extends BaseController
      *     summary="Crea una nueva alerta",
      *     description="Crea una nueva alerta con la información proporcionada.",
      *     tags={"Alertas"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/StoreAlertRequest")
@@ -85,6 +87,7 @@ class AlertsController extends BaseController
      *     summary="Obtiene una alerta por ID",
      *     description="Obtiene los detalles de una alerta específica por su ID.",
      *     tags={"Alertas"},
+     *    security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -119,6 +122,7 @@ class AlertsController extends BaseController
      *     summary="Actualiza una alerta por ID",
      *     description="Actualiza la información de una alerta específica por su ID.",
      *     tags={"Alertas"},
+     *    security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -159,6 +163,7 @@ class AlertsController extends BaseController
      *     summary="Elimina una alerta por ID",
      *     description="Elimina una alerta específica por su ID.",
      *     tags={"Alertas"},
+     *   security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

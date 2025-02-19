@@ -22,6 +22,7 @@ class OperatorsController extends BaseController
      *     summary="Lista todos los operadores",
      *     description="Obtiene una lista de todos los operadores (usuarios) disponibles.",
      *     tags={"Operadores"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Operación exitosa",
@@ -51,6 +52,7 @@ class OperatorsController extends BaseController
      *     summary="Crea un nuevo operador",
      *     description="Crea un nuevo operador (usuario) con la información proporcionada.",
      *     tags={"Operadores"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -96,6 +98,7 @@ class OperatorsController extends BaseController
      *     summary="Obtiene un operador por ID",
      *     description="Obtiene los detalles de un operador (usuario) específico por su ID.",
      *     tags={"Operadores"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -130,6 +133,7 @@ class OperatorsController extends BaseController
      *     summary="Actualiza un operador por ID",
      *     description="Actualiza la información de un operador (usuario) específico por su ID.",
      *     tags={"Operadores"},
+     *    security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -185,6 +189,7 @@ class OperatorsController extends BaseController
      *     summary="Elimina un operador por ID",
      *     description="Elimina un operador (usuario) específico por su ID.",
      *     tags={"Operadores"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

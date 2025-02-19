@@ -31,7 +31,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -67,7 +72,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/alerts/{id}": {
@@ -106,7 +116,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -156,7 +171,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -186,17 +206,22 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/api/auth/google/redirect": {
+        "/api/google/redirect": {
             "get": {
                 "tags": [
                     "Autenticación"
                 ],
                 "summary": "Redirige a Google para iniciar sesión",
                 "description": "Redirige al usuario a la página de inicio de sesión de Google.",
-                "operationId": "b866c3b42cb895103d6d88e22b7a5c72",
+                "operationId": "522079c332e0402c194adfa9939a8110",
                 "responses": {
                     "302": {
                         "description": "Redirección a Google"
@@ -207,14 +232,14 @@
                 }
             }
         },
-        "/api/auth/google/callback": {
+        "/api/google/callback": {
             "get": {
                 "tags": [
                     "Autenticación"
                 ],
                 "summary": "Gestiona la respuesta de Google tras el inicio de sesión",
                 "description": "Obtiene la información del usuario de Google tras el inicio de sesión y genera un token.",
-                "operationId": "210885a42fb8000ebe58f4de134154c5",
+                "operationId": "73cb2a82fb38ed837e16c52d3150e503",
                 "responses": {
                     "200": {
                         "description": "Operación exitosa",
@@ -244,14 +269,14 @@
                 }
             }
         },
-        "/api/auth/login": {
+        "/api/login": {
             "post": {
                 "tags": [
                     "Autenticación"
                 ],
                 "summary": "Inicia sesión con credenciales",
                 "description": "Inicia sesión con un email y contraseña.",
-                "operationId": "8bb20529d05d50d3c283a0dcfe716bfe",
+                "operationId": "5a102af25de590973dcbbf58cf673339",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -261,7 +286,7 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "usuario@example.com"
+                                        "example": "admin@example.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -302,14 +327,14 @@
                 }
             }
         },
-        "/api/auth/logout": {
+        "/api/logout": {
             "post": {
                 "tags": [
                     "Autenticación"
                 ],
                 "summary": "Cierra la sesión del usuario",
                 "description": "Cierra la sesión del usuario actual, invalidando el token.",
-                "operationId": "df9bdc6c7a6d9f20b983526b2ec0f698",
+                "operationId": "ad65cbbd4e9f201619eae184a5961a98",
                 "responses": {
                     "200": {
                         "description": "Operación exitosa",
@@ -358,7 +383,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -394,7 +424,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/calls/{id}": {
@@ -433,7 +468,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -483,7 +523,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -513,7 +558,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/calls": {
@@ -534,7 +584,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/patients/{patientId}/contacts": {
@@ -573,7 +628,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -620,7 +680,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/contacts/{id}": {
@@ -672,7 +737,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -702,7 +772,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/operators": {
@@ -730,7 +805,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -781,7 +861,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/operators/{id}": {
@@ -820,7 +905,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -885,7 +975,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -915,7 +1010,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/patients": {
@@ -943,7 +1043,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -979,7 +1084,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/patients/{id}": {
@@ -1018,7 +1128,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -1068,7 +1183,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1098,7 +1218,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/zones": {
@@ -1126,7 +1251,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1162,7 +1292,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/zones/{id}": {
@@ -1201,7 +1336,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -1251,7 +1391,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1281,7 +1426,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/zones/{id}/patients": {
@@ -1323,7 +1473,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/zones/{id}/operators": {
@@ -1365,7 +1520,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -2407,6 +2567,13 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },

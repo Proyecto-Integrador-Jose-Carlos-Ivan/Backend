@@ -24,6 +24,7 @@ class PatientsController extends BaseController
      *     summary="Lista todos los pacientes",
      *     description="Obtiene una lista de todos los pacientes disponibles.",
      *     tags={"Pacientes"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Operación exitosa",
@@ -54,6 +55,7 @@ class PatientsController extends BaseController
      *     summary="Crea un nuevo paciente",
      *     description="Crea un nuevo paciente con la información proporcionada.",
      *     tags={"Pacientes"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/StorePatientRequest")
@@ -85,6 +87,7 @@ class PatientsController extends BaseController
      *     summary="Obtiene un paciente por ID",
      *     description="Obtiene los detalles de un paciente específico por su ID.",
      *     tags={"Pacientes"},
+     *    security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -119,6 +122,7 @@ class PatientsController extends BaseController
      *     summary="Actualiza un paciente por ID",
      *     description="Actualiza la información de un paciente específico por su ID.",
      *     tags={"Pacientes"},
+     *    security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -159,6 +163,7 @@ class PatientsController extends BaseController
      *     summary="Elimina un paciente por ID",
      *     description="Elimina un paciente específico por su ID.",
      *     tags={"Pacientes"},
+     *   security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

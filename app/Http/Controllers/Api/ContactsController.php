@@ -24,6 +24,7 @@ class ContactsController extends BaseController
      *     summary="Lista todos los contactos de un paciente",
      *     description="Obtiene una lista de todos los contactos asociados a un paciente específico.",
      *     tags={"Contactos"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="patientId",
      *         in="path",
@@ -60,6 +61,7 @@ class ContactsController extends BaseController
      *     summary="Crea un nuevo contacto para un paciente",
      *     description="Crea un nuevo contacto asociado a un paciente específico.",
      *     tags={"Contactos"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="patientId",
      *         in="path",
@@ -100,6 +102,7 @@ class ContactsController extends BaseController
      *     summary="Actualiza un contacto por ID",
      *     description="Actualiza la información de un contacto específico por su ID.",
      *     tags={"Contactos"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -140,6 +143,7 @@ class ContactsController extends BaseController
      *     summary="Elimina un contacto por ID",
      *     description="Elimina un contacto específico por su ID.",
      *     tags={"Contactos"},
+     *    security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

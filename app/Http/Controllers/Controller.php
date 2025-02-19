@@ -8,6 +8,13 @@ namespace App\Http\Controllers;
  *    version="1.0.0",
  * )
  * @OA\PathItem(path="/api")
+ **  
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
 */  
 
 abstract class Controller

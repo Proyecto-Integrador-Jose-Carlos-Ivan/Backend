@@ -25,6 +25,7 @@ class ZonesController extends BaseController
      *     summary="Lista todas las zonas",
      *     description="Obtiene una lista de todas las zonas disponibles.",
      *     tags={"Zonas"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Operación exitosa",
@@ -54,6 +55,7 @@ class ZonesController extends BaseController
      *     summary="Obtiene una zona por ID",
      *     description="Obtiene los detalles de una zona específica por su ID.",
      *     tags={"Zonas"},
+     *    security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -88,6 +90,7 @@ class ZonesController extends BaseController
      *     summary="Lista los pacientes en una zona",
      *     description="Obtiene una lista de los pacientes asociados a una zona específica.",
      *     tags={"Zonas"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -127,6 +130,7 @@ class ZonesController extends BaseController
      *     summary="Lista los operadores asignados a una zona",
      *     description="Obtiene una lista de los operadores (usuarios) asignados a una zona específica.",
      *     tags={"Zonas"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -166,6 +170,7 @@ class ZonesController extends BaseController
      *     summary="Crea una nueva zona",
      *     description="Crea una nueva zona con la información proporcionada.",
      *     tags={"Zonas"},
+     *    security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/StoreZoneRequest")
@@ -197,6 +202,7 @@ class ZonesController extends BaseController
      *     summary="Actualiza una zona por ID",
      *     description="Actualiza la información de una zona específica por su ID.",
      *     tags={"Zonas"},
+     *   security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -237,6 +243,7 @@ class ZonesController extends BaseController
      *     summary="Elimina una zona por ID",
      *     description="Elimina una zona específica por su ID.",
      *     tags={"Zonas"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

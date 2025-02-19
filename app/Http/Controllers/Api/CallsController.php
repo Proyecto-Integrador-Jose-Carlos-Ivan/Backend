@@ -25,6 +25,7 @@ class CallsController extends BaseController
      *     summary="Lista todas las llamadas",
      *     description="Obtiene una lista de todas las llamadas disponibles.",
      *     tags={"Llamadas"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Operación exitosa",
@@ -54,6 +55,7 @@ class CallsController extends BaseController
      *     summary="Crea una nueva llamada",
      *     description="Crea una nueva llamada con la información proporcionada.",
      *     tags={"Llamadas"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/StoreCallRequest")
@@ -86,6 +88,7 @@ class CallsController extends BaseController
      *     summary="Obtiene una llamada por ID",
      *     description="Obtiene los detalles de una llamada específica por su ID.",
      *     tags={"Llamadas"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -120,6 +123,7 @@ class CallsController extends BaseController
      *     summary="Actualiza una llamada por ID",
      *     description="Actualiza la información de una llamada específica por su ID.",
      *     tags={"Llamadas"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -160,6 +164,7 @@ class CallsController extends BaseController
      *     summary="Elimina una llamada por ID",
      *     description="Elimina una llamada específica por su ID.",
      *     tags={"Llamadas"},
+     *      security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -194,6 +199,7 @@ class CallsController extends BaseController
      *     summary="Muestra la vista de llamadas",
      *     description="Muestra la vista de llamadas.",
      *     tags={"Llamadas"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Operación exitosa",
