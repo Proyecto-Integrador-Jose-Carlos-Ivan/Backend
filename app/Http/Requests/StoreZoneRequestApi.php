@@ -4,6 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="StoreZoneRequest",
+ *     title="Store Zone Request",
+ *     description="Store Zone request body data",
+ *     required={"name"},
+ *     @OA\Property(property="name", type="string", description="Zone name")
+ * )
+ */
 class StoreZoneRequestApi extends FormRequest
 {
     /**

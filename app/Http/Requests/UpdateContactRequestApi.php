@@ -4,6 +4,17 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="UpdateContactRequest",
+ *     title="Update Contact Request",
+ *     description="Update Contact request body data",
+ *     @OA\Property(property="nombre", type="string", maxLength=255, description="Contact name"),
+ *     @OA\Property(property="apellido", type="string", maxLength=255, description="Contact last name"),
+ *     @OA\Property(property="telefono", type="string", maxLength=20, description="Contact phone number"),
+ *     @OA\Property(property="relacion", type="string", maxLength=255, description="Relationship to patient")
+ * )
+ */
 class UpdateContactRequestApi extends FormRequest
 {
     /**

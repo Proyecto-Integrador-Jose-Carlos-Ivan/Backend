@@ -1,0 +1,2443 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Projecte Integrador API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api": {},
+        "/api/alerts": {
+            "get": {
+                "tags": [
+                    "Alertas"
+                ],
+                "summary": "Lista todas las alertas",
+                "description": "Obtiene una lista de todas las alertas disponibles.",
+                "operationId": "a4d0d36b07da650ba1d6b0d78f06a7f5",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Alert"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Alertas"
+                ],
+                "summary": "Crea una nueva alerta",
+                "description": "Crea una nueva alerta con la información proporcionada.",
+                "operationId": "eb1fb84f3bf66ec5e88133c5b8e05c31",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreAlertRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Alert"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/alerts/{id}": {
+            "get": {
+                "tags": [
+                    "Alertas"
+                ],
+                "summary": "Obtiene una alerta por ID",
+                "description": "Obtiene los detalles de una alerta específica por su ID.",
+                "operationId": "3e280f1020a68722f5bcb7a394532cc7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la alerta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Alert"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Alerta no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Alertas"
+                ],
+                "summary": "Actualiza una alerta por ID",
+                "description": "Actualiza la información de una alerta específica por su ID.",
+                "operationId": "d2bdb2e600ed301dde96d5f3c82e8c81",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la alerta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAlertRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Alert"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "404": {
+                        "description": "Alerta no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Alertas"
+                ],
+                "summary": "Elimina una alerta por ID",
+                "description": "Elimina una alerta específica por su ID.",
+                "operationId": "93ab7eb38374b1b38e4e24ce70f08a8a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la alerta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Operación exitosa (sin contenido)"
+                    },
+                    "404": {
+                        "description": "Alerta no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/auth/google/redirect": {
+            "get": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Redirige a Google para iniciar sesión",
+                "description": "Redirige al usuario a la página de inicio de sesión de Google.",
+                "operationId": "b866c3b42cb895103d6d88e22b7a5c72",
+                "responses": {
+                    "302": {
+                        "description": "Redirección a Google"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/auth/google/callback": {
+            "get": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Gestiona la respuesta de Google tras el inicio de sesión",
+                "description": "Obtiene la información del usuario de Google tras el inicio de sesión y genera un token.",
+                "operationId": "210885a42fb8000ebe58f4de134154c5",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Token de autenticación",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Usuario no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Inicia sesión con credenciales",
+                "description": "Inicia sesión con un email y contraseña.",
+                "operationId": "8bb20529d05d50d3c283a0dcfe716bfe",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Token de autenticación",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Cierra la sesión del usuario",
+                "description": "Cierra la sesión del usuario actual, invalidando el token.",
+                "operationId": "df9bdc6c7a6d9f20b983526b2ec0f698",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User successfully signed out."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/calls": {
+            "get": {
+                "tags": [
+                    "Llamadas"
+                ],
+                "summary": "Lista todas las llamadas",
+                "description": "Obtiene una lista de todas las llamadas disponibles.",
+                "operationId": "78bfa1481293a91fc2ca695b30cae042",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Call"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Llamadas"
+                ],
+                "summary": "Crea una nueva llamada",
+                "description": "Crea una nueva llamada con la información proporcionada.",
+                "operationId": "7460a89addf5821cf864d0d5f7af9ed0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCallRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Call"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/calls/{id}": {
+            "get": {
+                "tags": [
+                    "Llamadas"
+                ],
+                "summary": "Obtiene una llamada por ID",
+                "description": "Obtiene los detalles de una llamada específica por su ID.",
+                "operationId": "ceb227fdec891be30a448feb763825a6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la llamada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Call"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Llamada no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Llamadas"
+                ],
+                "summary": "Actualiza una llamada por ID",
+                "description": "Actualiza la información de una llamada específica por su ID.",
+                "operationId": "ef5e4c50c1c3efe12d6680dbb34a0f7e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la llamada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCallRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Call"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "404": {
+                        "description": "Llamada no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Llamadas"
+                ],
+                "summary": "Elimina una llamada por ID",
+                "description": "Elimina una llamada específica por su ID.",
+                "operationId": "dee2afe1200170592d67b64f192b673f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la llamada",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Operación exitosa (sin contenido)"
+                    },
+                    "404": {
+                        "description": "Llamada no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/calls": {
+            "get": {
+                "tags": [
+                    "Llamadas"
+                ],
+                "summary": "Muestra la vista de llamadas",
+                "description": "Muestra la vista de llamadas.",
+                "operationId": "404578bd08d99a31039b2b85274c33aa",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "text/html": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/patients/{patientId}/contacts": {
+            "get": {
+                "tags": [
+                    "Contactos"
+                ],
+                "summary": "Lista todos los contactos de un paciente",
+                "description": "Obtiene una lista de todos los contactos asociados a un paciente específico.",
+                "operationId": "6c9d77d673adc16fed1594f7fb2f9d63",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "ID del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ContactPerson"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Contactos"
+                ],
+                "summary": "Crea un nuevo contacto para un paciente",
+                "description": "Crea un nuevo contacto asociado a un paciente específico.",
+                "operationId": "d18c5cdf22e0bd701f67d776eb120532",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "ID del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreContactRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContactPerson"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/contacts/{id}": {
+            "put": {
+                "tags": [
+                    "Contactos"
+                ],
+                "summary": "Actualiza un contacto por ID",
+                "description": "Actualiza la información de un contacto específico por su ID.",
+                "operationId": "30863a9d3758a8c86d3c6d1fb000f800",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del contacto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateContactRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContactPerson"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "404": {
+                        "description": "Contacto no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Contactos"
+                ],
+                "summary": "Elimina un contacto por ID",
+                "description": "Elimina un contacto específico por su ID.",
+                "operationId": "4522941f7946c9d48b928cf6b9c5aa8a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del contacto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Operación exitosa (sin contenido)"
+                    },
+                    "404": {
+                        "description": "Contacto no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/operators": {
+            "get": {
+                "tags": [
+                    "Operadores"
+                ],
+                "summary": "Lista todos los operadores",
+                "description": "Obtiene una lista de todos los operadores (usuarios) disponibles.",
+                "operationId": "31e1ff3273702a52ed29ef11c291d4a0",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Operadores"
+                ],
+                "summary": "Crea un nuevo operador",
+                "description": "Crea un nuevo operador (usuario) con la información proporcionada.",
+                "operationId": "09eba68c11c66227b9d57f4f045078bd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/operators/{id}": {
+            "get": {
+                "tags": [
+                    "Operadores"
+                ],
+                "summary": "Obtiene un operador por ID",
+                "description": "Obtiene los detalles de un operador (usuario) específico por su ID.",
+                "operationId": "ad6092c57e17678963e25835061f723b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del operador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Operador no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Operadores"
+                ],
+                "summary": "Actualiza un operador por ID",
+                "description": "Actualiza la información de un operador (usuario) específico por su ID.",
+                "operationId": "355ce3f881893091ab1ed47413bd9c4a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del operador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "404": {
+                        "description": "Operador no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Operadores"
+                ],
+                "summary": "Elimina un operador por ID",
+                "description": "Elimina un operador (usuario) específico por su ID.",
+                "operationId": "11c87fbac291e5aea84acc617cb07714",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del operador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Operación exitosa (sin contenido)"
+                    },
+                    "404": {
+                        "description": "Operador no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/patients": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Lista todos los pacientes",
+                "description": "Obtiene una lista de todos los pacientes disponibles.",
+                "operationId": "5d245d8dbe3006df98a6327d0ef92f80",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Patient"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Crea un nuevo paciente",
+                "description": "Crea un nuevo paciente con la información proporcionada.",
+                "operationId": "990c6f96dd7d4d2b3b6b2159d31b3cbd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePatientRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Patient"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/patients/{id}": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Obtiene un paciente por ID",
+                "description": "Obtiene los detalles de un paciente específico por su ID.",
+                "operationId": "7ddcd48af8cd38331a0526024049c344",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Patient"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Paciente no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Actualiza un paciente por ID",
+                "description": "Actualiza la información de un paciente específico por su ID.",
+                "operationId": "f60dd714fa74bbfa62f73399a3ff4026",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePatientRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Patient"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "404": {
+                        "description": "Paciente no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Elimina un paciente por ID",
+                "description": "Elimina un paciente específico por su ID.",
+                "operationId": "f63ab009b8eb47990a2399733b06b070",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Operación exitosa (sin contenido)"
+                    },
+                    "404": {
+                        "description": "Paciente no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/zones": {
+            "get": {
+                "tags": [
+                    "Zonas"
+                ],
+                "summary": "Lista todas las zonas",
+                "description": "Obtiene una lista de todas las zonas disponibles.",
+                "operationId": "020f2ffa2b5524fef024650df8253c40",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Zone"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Zonas"
+                ],
+                "summary": "Crea una nueva zona",
+                "description": "Crea una nueva zona con la información proporcionada.",
+                "operationId": "be52c8ac3f4052f0abed75aa2f444dfe",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreZoneRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Zone"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/zones/{id}": {
+            "get": {
+                "tags": [
+                    "Zonas"
+                ],
+                "summary": "Obtiene una zona por ID",
+                "description": "Obtiene los detalles de una zona específica por su ID.",
+                "operationId": "e06126ff77656b96c86386859a1b5737",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la zona",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Zone"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Zona no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Zonas"
+                ],
+                "summary": "Actualiza una zona por ID",
+                "description": "Actualiza la información de una zona específica por su ID.",
+                "operationId": "fcdef484b2da68b9e1e809d889daeb44",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la zona",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateZoneRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Zone"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "404": {
+                        "description": "Zona no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Zonas"
+                ],
+                "summary": "Elimina una zona por ID",
+                "description": "Elimina una zona específica por su ID.",
+                "operationId": "14fe6328fe4bdd40162f01624972313e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la zona",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Operación exitosa (sin contenido)"
+                    },
+                    "404": {
+                        "description": "Zona no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/zones/{id}/patients": {
+            "get": {
+                "tags": [
+                    "Zonas"
+                ],
+                "summary": "Lista los pacientes en una zona",
+                "description": "Obtiene una lista de los pacientes asociados a una zona específica.",
+                "operationId": "3b7b6bfdb9ca2cc11a9fd6f9966c6a15",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la zona",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Patient"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Zona no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/zones/{id}/operators": {
+            "get": {
+                "tags": [
+                    "Zonas"
+                ],
+                "summary": "Lista los operadores asignados a una zona",
+                "description": "Obtiene una lista de los operadores (usuarios) asignados a una zona específica.",
+                "operationId": "73d3480cf3eddc9b25e181ce257ec1b7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la zona",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Zona no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StoreAlertRequest": {
+                "title": "Store Alert Request",
+                "description": "Store Alert request body data",
+                "required": [
+                    "recurrencia",
+                    "tipo",
+                    "subtipo",
+                    "operador_id",
+                    "paciente_id"
+                ],
+                "properties": {
+                    "recurrencia": {
+                        "description": "Alert recurrence (puntual/periodic)",
+                        "type": "string",
+                        "enum": [
+                            "puntual",
+                            "periodic"
+                        ]
+                    },
+                    "tipo": {
+                        "description": "Alert type",
+                        "type": "string",
+                        "enum": [
+                            "avisos",
+                            "protocolos",
+                            "ausencias_retornos"
+                        ]
+                    },
+                    "subtipo": {
+                        "description": "Alert subtype",
+                        "type": "string"
+                    },
+                    "fecha": {
+                        "description": "Alert date",
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "dia_semana": {
+                        "description": "Day of the week (1-7)",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "descripcion": {
+                        "description": "Alert description",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "operador_id": {
+                        "description": "Operator ID",
+                        "type": "integer"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer"
+                    },
+                    "zona_id": {
+                        "description": "Zone ID",
+                        "type": "integer",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCallRequest": {
+                "title": "Store Call Request",
+                "description": "Store Call request body data",
+                "properties": {
+                    "fecha_hora": {
+                        "description": "Call date and time",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "operador_id": {
+                        "description": "Operator ID",
+                        "type": "integer"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer"
+                    },
+                    "descripcion": {
+                        "description": "Call description",
+                        "type": "string"
+                    },
+                    "sentido": {
+                        "description": "Call direction (entrante/saliente)",
+                        "type": "string"
+                    },
+                    "categoria": {
+                        "description": "Call category",
+                        "type": "string"
+                    },
+                    "subtipo": {
+                        "description": "Call subtype",
+                        "type": "string"
+                    },
+                    "aviso_id": {
+                        "description": "Alert ID",
+                        "type": "integer"
+                    },
+                    "zone_id": {
+                        "description": "Zone ID",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreContactRequest": {
+                "title": "Store Contact Request",
+                "description": "Store Contact request body data",
+                "required": [
+                    "nombre",
+                    "apellido",
+                    "telefono",
+                    "relacion"
+                ],
+                "properties": {
+                    "nombre": {
+                        "description": "Contact name",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "apellido": {
+                        "description": "Contact last name",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "telefono": {
+                        "description": "Contact phone number",
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "relacion": {
+                        "description": "Relationship to patient",
+                        "type": "string",
+                        "maxLength": 255
+                    }
+                },
+                "type": "object"
+            },
+            "StorePatientRequest": {
+                "title": "Store Patient Request",
+                "description": "Store Patient request body data",
+                "required": [
+                    "nombre",
+                    "fecha_nacimiento",
+                    "direccion",
+                    "dni",
+                    "sip",
+                    "telefono",
+                    "email",
+                    "zona_id"
+                ],
+                "properties": {
+                    "nombre": {
+                        "description": "Patient name",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "fecha_nacimiento": {
+                        "description": "Patient birth date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "direccion": {
+                        "description": "Patient address",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "dni": {
+                        "description": "Patient DNI",
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "sip": {
+                        "description": "Patient SIP",
+                        "type": "integer"
+                    },
+                    "telefono": {
+                        "description": "Patient phone number",
+                        "type": "integer"
+                    },
+                    "email": {
+                        "description": "Patient email",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255
+                    },
+                    "zona_id": {
+                        "description": "Zone ID",
+                        "type": "integer"
+                    },
+                    "contacto_id": {
+                        "description": "Contact ID",
+                        "type": "integer"
+                    },
+                    "situacion_personal": {
+                        "description": "Patient personal situation",
+                        "type": "string"
+                    },
+                    "situacion_sanitaria": {
+                        "description": "Patient health situation",
+                        "type": "string"
+                    },
+                    "situacion_habitage": {
+                        "description": "Patient housing situation",
+                        "type": "string"
+                    },
+                    "autonomia": {
+                        "description": "Patient autonomy level",
+                        "type": "string"
+                    },
+                    "situacion_economica": {
+                        "description": "Patient economic situation",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreZoneRequest": {
+                "title": "Store Zone Request",
+                "description": "Store Zone request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Zone name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateAlertRequest": {
+                "title": "Update Alert Request",
+                "description": "Update Alert request body data",
+                "properties": {
+                    "recurrencia": {
+                        "description": "Alert recurrence (puntual/periodic)",
+                        "type": "string",
+                        "enum": [
+                            "puntual",
+                            "periodic"
+                        ]
+                    },
+                    "tipo": {
+                        "description": "Alert type",
+                        "type": "string",
+                        "enum": [
+                            "avisos",
+                            "protocolos",
+                            "ausencias_retornos"
+                        ]
+                    },
+                    "subtipo": {
+                        "description": "Alert subtype",
+                        "type": "string"
+                    },
+                    "fecha": {
+                        "description": "Alert date",
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "dia_semana": {
+                        "description": "Day of the week (1-7)",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "descripcion": {
+                        "description": "Alert description",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "operador_id": {
+                        "description": "Operator ID",
+                        "type": "integer"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer"
+                    },
+                    "zona_id": {
+                        "description": "Zone ID",
+                        "type": "integer",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCallRequest": {
+                "title": "Update Call Request",
+                "description": "Update Call request body data",
+                "properties": {
+                    "fecha_hora": {
+                        "description": "Call date and time",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "operador_id": {
+                        "description": "Operator ID",
+                        "type": "integer"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer"
+                    },
+                    "descripcion": {
+                        "description": "Call description",
+                        "type": "string"
+                    },
+                    "sentido": {
+                        "description": "Call direction (entrante/saliente)",
+                        "type": "string"
+                    },
+                    "categoria": {
+                        "description": "Call category",
+                        "type": "string"
+                    },
+                    "subtipo": {
+                        "description": "Call subtype",
+                        "type": "string"
+                    },
+                    "aviso_id": {
+                        "description": "Alert ID",
+                        "type": "integer"
+                    },
+                    "zone_id": {
+                        "description": "Zone ID",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateContactRequest": {
+                "title": "Update Contact Request",
+                "description": "Update Contact request body data",
+                "properties": {
+                    "nombre": {
+                        "description": "Contact name",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "apellido": {
+                        "description": "Contact last name",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "telefono": {
+                        "description": "Contact phone number",
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "relacion": {
+                        "description": "Relationship to patient",
+                        "type": "string",
+                        "maxLength": 255
+                    }
+                },
+                "type": "object"
+            },
+            "UpdatePatientRequest": {
+                "title": "Update Patient Request",
+                "description": "Update Patient request body data",
+                "properties": {
+                    "nombre": {
+                        "description": "Patient name",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "fecha_nacimiento": {
+                        "description": "Patient birth date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "direccion": {
+                        "description": "Patient address",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "dni": {
+                        "description": "Patient DNI",
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "sip": {
+                        "description": "Patient SIP",
+                        "type": "integer"
+                    },
+                    "telefono": {
+                        "description": "Patient phone number",
+                        "type": "integer"
+                    },
+                    "email": {
+                        "description": "Patient email",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255
+                    },
+                    "zona_id": {
+                        "description": "Zone ID",
+                        "type": "integer"
+                    },
+                    "contacto_id": {
+                        "description": "Contact ID",
+                        "type": "integer"
+                    },
+                    "situacion_personal": {
+                        "description": "Patient personal situation",
+                        "type": "string"
+                    },
+                    "situacion_sanitaria": {
+                        "description": "Patient health situation",
+                        "type": "string"
+                    },
+                    "situacion_habitage": {
+                        "description": "Patient housing situation",
+                        "type": "string"
+                    },
+                    "autonomia": {
+                        "description": "Patient autonomy level",
+                        "type": "string"
+                    },
+                    "situacion_economica": {
+                        "description": "Patient economic situation",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateZoneRequest": {
+                "title": "Update Zone Request",
+                "description": "Update Zone request body data",
+                "properties": {
+                    "name": {
+                        "description": "Zone name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "AlertResource": {
+                "title": "Alert Resource",
+                "description": "Alert resource",
+                "properties": {
+                    "id": {
+                        "description": "Alert ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "recurrencia": {
+                        "description": "Alert recurrence",
+                        "type": "string"
+                    },
+                    "tipo": {
+                        "description": "Alert type",
+                        "type": "string"
+                    },
+                    "subtipo": {
+                        "description": "Alert subtype",
+                        "type": "string"
+                    },
+                    "fecha": {
+                        "description": "Alert date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "dia_semana": {
+                        "description": "Day of the week",
+                        "type": "string"
+                    },
+                    "descripcion": {
+                        "description": "Alert description",
+                        "type": "string"
+                    },
+                    "operador_id": {
+                        "description": "Operator ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "zona_id": {
+                        "description": "Zone ID",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "type": "object"
+            },
+            "CallResource": {
+                "title": "Call Resource",
+                "description": "Call resource",
+                "properties": {
+                    "id": {
+                        "description": "Call ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "fecha_hora": {
+                        "description": "Call date and time",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "operador_id": {
+                        "description": "Operator ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "descripcion": {
+                        "description": "Call description",
+                        "type": "string"
+                    },
+                    "sentido": {
+                        "description": "Call direction",
+                        "type": "string"
+                    },
+                    "categoria": {
+                        "description": "Call category",
+                        "type": "string"
+                    },
+                    "subtipo": {
+                        "description": "Call subtype",
+                        "type": "string"
+                    },
+                    "aviso_id": {
+                        "description": "Alert ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "operador": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "paciente": {
+                        "$ref": "#/components/schemas/PatientResource"
+                    },
+                    "aviso": {
+                        "$ref": "#/components/schemas/AlertResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ContactPersonResource": {
+                "title": "ContactPerson Resource",
+                "description": "ContactPerson resource",
+                "properties": {
+                    "id": {
+                        "description": "ContactPerson ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "description": "ContactPerson name",
+                        "type": "string"
+                    },
+                    "apellido": {
+                        "description": "ContactPerson last name",
+                        "type": "string"
+                    },
+                    "telefono": {
+                        "description": "ContactPerson phone number",
+                        "type": "string"
+                    },
+                    "relacion": {
+                        "description": "Relationship to patient",
+                        "type": "string"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "type": "object"
+            },
+            "PatientResource": {
+                "title": "Patient Resource",
+                "description": "Patient resource",
+                "properties": {
+                    "id": {
+                        "description": "Patient ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "description": "Patient name",
+                        "type": "string"
+                    },
+                    "fecha_nacimiento": {
+                        "description": "Patient birth date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "direccion": {
+                        "description": "Patient address",
+                        "type": "string"
+                    },
+                    "dni": {
+                        "description": "Patient DNI",
+                        "type": "string"
+                    },
+                    "sip": {
+                        "description": "Patient SIP",
+                        "type": "string"
+                    },
+                    "telefono": {
+                        "description": "Patient phone number",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Patient email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "zona_id": {
+                        "description": "Zone ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "contacto_id": {
+                        "description": "Contact ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "situacion_personal": {
+                        "description": "Patient personal situation",
+                        "type": "string"
+                    },
+                    "situacion_sanitaria": {
+                        "description": "Patient health situation",
+                        "type": "string"
+                    },
+                    "situacion_habitage": {
+                        "description": "Patient housing situation",
+                        "type": "string"
+                    },
+                    "autonomia": {
+                        "description": "Patient autonomy level",
+                        "type": "string"
+                    },
+                    "situacion_economica": {
+                        "description": "Patient economic situation",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "title": "User Resource",
+                "description": "User resource",
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "description": "User name",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string"
+                    },
+                    "google_id": {
+                        "description": "Google ID",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "avatar": {
+                        "description": "User avatar URL",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "telefono": {
+                        "description": "User phone number",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lenguas": {
+                        "description": "Languages spoken by the user",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "fecha_contratacion": {
+                        "description": "User hire date",
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "fecha_baja": {
+                        "description": "User termination date",
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "username": {
+                        "description": "User username",
+                        "type": "string"
+                    },
+                    "apellidos": {
+                        "description": "User last names",
+                        "type": "string"
+                    },
+                    "role": {
+                        "description": "User role",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ZoneResource": {
+                "title": "Zone Resource",
+                "description": "Zone resource",
+                "properties": {
+                    "id": {
+                        "description": "Zone ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "description": "Zone name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Alert": {
+                "title": "Alert",
+                "description": "Alert model",
+                "properties": {
+                    "id": {
+                        "description": "Alert ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "message": {
+                        "description": "Alert message",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Call": {
+                "title": "Call",
+                "description": "Call model",
+                "properties": {
+                    "id": {
+                        "description": "Call ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "fecha_hora": {
+                        "description": "Call date and time",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "operador_id": {
+                        "description": "Operator ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "descripcion": {
+                        "description": "Call description",
+                        "type": "string"
+                    },
+                    "sentido": {
+                        "description": "Call direction",
+                        "type": "string"
+                    },
+                    "categoria": {
+                        "description": "Call category",
+                        "type": "string"
+                    },
+                    "subtipo": {
+                        "description": "Call subtype",
+                        "type": "string"
+                    },
+                    "aviso_id": {
+                        "description": "Alert ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "zone_id": {
+                        "description": "Zone ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ContactPerson": {
+                "title": "ContactPerson",
+                "description": "ContactPerson model",
+                "properties": {
+                    "id": {
+                        "description": "ContactPerson ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "description": "ContactPerson name",
+                        "type": "string"
+                    },
+                    "apellido": {
+                        "description": "ContactPerson last name",
+                        "type": "string"
+                    },
+                    "telefono": {
+                        "description": "ContactPerson phone number",
+                        "type": "string"
+                    },
+                    "relacion": {
+                        "description": "Relationship to patient",
+                        "type": "string"
+                    },
+                    "paciente_id": {
+                        "description": "Patient ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Patient": {
+                "title": "Patient",
+                "description": "Patient model",
+                "properties": {
+                    "id": {
+                        "description": "Patient ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "description": "Patient name",
+                        "type": "string"
+                    },
+                    "fecha_nacimiento": {
+                        "description": "Patient birth date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "direccion": {
+                        "description": "Patient address",
+                        "type": "string"
+                    },
+                    "dni": {
+                        "description": "Patient DNI",
+                        "type": "string"
+                    },
+                    "sip": {
+                        "description": "Patient SIP",
+                        "type": "string"
+                    },
+                    "telefono": {
+                        "description": "Patient phone number",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Patient email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "zona_id": {
+                        "description": "Zone ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "contacto_id": {
+                        "description": "Contact ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "situacion_personal": {
+                        "description": "Patient personal situation",
+                        "type": "string"
+                    },
+                    "situacion_sanitaria": {
+                        "description": "Patient health situation",
+                        "type": "string"
+                    },
+                    "situacion_habitage": {
+                        "description": "Patient housing situation",
+                        "type": "string"
+                    },
+                    "autonomia": {
+                        "description": "Patient autonomy level",
+                        "type": "string"
+                    },
+                    "situacion_economica": {
+                        "description": "Patient economic situation",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "description": "User name",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "telefono": {
+                        "description": "User phone number",
+                        "type": "string"
+                    },
+                    "lenguas": {
+                        "description": "Languages spoken by the user",
+                        "type": "string"
+                    },
+                    "fecha_contratacion": {
+                        "description": "User hire date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "fecha_baja": {
+                        "description": "User termination date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "username": {
+                        "description": "User username",
+                        "type": "string"
+                    },
+                    "apellidos": {
+                        "description": "User last names",
+                        "type": "string"
+                    },
+                    "role": {
+                        "description": "User role",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Zone": {
+                "title": "Zone",
+                "description": "Zone model",
+                "properties": {
+                    "id": {
+                        "description": "Zone ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "description": "Zone name",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Alertas",
+            "description": "Operaciones relacionadas con las alertas."
+        },
+        {
+            "name": "Autenticación",
+            "description": "Operaciones relacionadas con la autenticación de usuarios."
+        },
+        {
+            "name": "Llamadas",
+            "description": "Operaciones relacionadas con las llamadas."
+        },
+        {
+            "name": "Contactos",
+            "description": "Operaciones relacionadas con los contactos de un paciente."
+        },
+        {
+            "name": "Operadores",
+            "description": "Operaciones relacionadas con los operadores (usuarios)."
+        },
+        {
+            "name": "Pacientes",
+            "description": "Operaciones relacionadas con los pacientes."
+        },
+        {
+            "name": "Zonas",
+            "description": "Operaciones relacionadas con las zonas."
+        }
+    ]
+}

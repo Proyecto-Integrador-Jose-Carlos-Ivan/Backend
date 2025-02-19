@@ -4,6 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="UpdateZoneRequest",
+ *     title="Update Zone Request",
+ *     description="Update Zone request body data",
+ *     @OA\Property(property="name", type="string", description="Zone name")
+ * )
+ */
 class UpdateZoneRequestApi extends FormRequest
 {
     /**

@@ -3,6 +3,19 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     schema="ContactPersonResource",
+ *     title="ContactPerson Resource",
+ *     description="ContactPerson resource",
+ *     @OA\Property(property="id", type="integer", format="int64", description="ContactPerson ID"),
+ *     @OA\Property(property="nombre", type="string", description="ContactPerson name"),
+ *     @OA\Property(property="apellido", type="string", description="ContactPerson last name"),
+ *     @OA\Property(property="telefono", type="string", description="ContactPerson phone number"),
+ *     @OA\Property(property="relacion", type="string", description="Relationship to patient"),
+ *     @OA\Property(property="paciente_id", type="integer", format="int64", description="Patient ID"),
+ * )
+ */
 class ContactPersonResource extends JsonResource
 {
     /**

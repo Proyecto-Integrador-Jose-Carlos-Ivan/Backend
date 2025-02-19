@@ -3,6 +3,15 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     schema="ZoneResource",
+ *     title="Zone Resource",
+ *     description="Zone resource",
+ *     @OA\Property(property="id", type="integer", format="int64", description="Zone ID"),
+ *     @OA\Property(property="name", type="string", description="Zone name"),
+ * )
+ */
 class ZoneResource extends JsonResource
 {
     /**

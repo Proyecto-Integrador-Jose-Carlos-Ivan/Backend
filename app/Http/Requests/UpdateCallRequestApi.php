@@ -5,6 +5,22 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @OA\Schema(
+ *     schema="UpdateCallRequest",
+ *     title="Update Call Request",
+ *     description="Update Call request body data",
+ *     @OA\Property(property="fecha_hora", type="string", format="date-time", description="Call date and time"),
+ *     @OA\Property(property="operador_id", type="integer", description="Operator ID"),
+ *     @OA\Property(property="paciente_id", type="integer", description="Patient ID"),
+ *     @OA\Property(property="descripcion", type="string", description="Call description"),
+ *     @OA\Property(property="sentido", type="string", description="Call direction (entrante/saliente)"),
+ *     @OA\Property(property="categoria", type="string", description="Call category"),
+ *     @OA\Property(property="subtipo", type="string", description="Call subtype"),
+ *     @OA\Property(property="aviso_id", type="integer", description="Alert ID"),
+ *     @OA\Property(property="zone_id", type="integer", description="Zone ID")
+ * )
+ */
 class UpdateCallRequestApi extends FormRequest
 {
     /**
