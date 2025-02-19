@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Futbol Femení')
+@section('title', 'Proyecto Integrador')
 
 @section('content')
     <div class="container">

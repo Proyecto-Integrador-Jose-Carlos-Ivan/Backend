@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\CallsController;
 use App\Http\Controllers\Api\ReportsController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
 })->name('home');
 
 Route::get('api/login/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
