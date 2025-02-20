@@ -44,14 +44,20 @@ class StorePatientRequestApi extends FormRequest
     public function rules(): array
     {
         return [
-            // 'nombre' => 'required|string|max:255',
-            // 'fecha_nacimiento' => 'required|date',
-            // 'direccion' => 'required|string|max:255',
-            // 'dni' => 'required|string|max:20|unique:pacientes',
-            // 'sip' => 'required|integer|unique:pacientes',
-            // 'telefono' => 'required|integer',
-            // 'email' => 'required|string|email|max:255|unique:pacientes',
-            // 'zona_id' => 'required|exists:zonas,id',
+            'nombre' => 'required|string|max:255',
+            'fecha_nacimiento' => 'required|date',
+            'direccion' => 'required|string|max:255',
+            'dni' => 'required|string|max:20|unique:pacientes',
+            'sip' => 'required|integer|unique:pacientes',
+            'telefono' => 'required|integer',
+            'email' => 'required|string|email|max:255|unique:pacientes',
+            'zona_id' => 'required|exists:zonas,id',
+            'contacto_id' => 'nullable|exists:contactos,id',
+            'situacion_personal' => 'nullable|string',
+            'situacion_sanitaria' => 'nullable|string',
+            'situacion_habitage' => 'nullable|string',
+            'autonomia' => 'nullable|string',
+            'situacion_economica' => 'nullable|string'
         ];
     }
 }
