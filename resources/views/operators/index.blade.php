@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Operadores')
+
 @section('content')
     <div class="container mx-auto px-4">
         <h1 class="text-3xl font-bold my-6 text-gray-800">Operadors</h1>
