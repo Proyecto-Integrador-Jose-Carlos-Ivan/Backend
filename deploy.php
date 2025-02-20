@@ -39,10 +39,9 @@ task('deploy:vendors', function () {
     run('cd {{release_path}} && composer install --optimize-autoloader');
 });
 
-// task('deploy:install_acl', function () {
-//     run('sudo apt-get update');
-//     run('sudo apt-get install -y acl');
-// })->desc('Install ACL package');
+task('artisan:queue:work', function () {
+    run('{{bin/php}} {{release_path}}/artisan queue:work');
+ })->desc('Ejecutar queue:work');
 
 // Hooks
 before('deploy:shared', 'upload:env');
@@ -50,11 +49,7 @@ before('deploy:symlink', 'artisan:migrate:fresh:seed');
 // before('deploy:writable', 'deploy:install_acl');
 before('deploy:symlink', 'deploy:vendors');
 before('deploy:symlink', 'build');
+after('reload:php-fpm', 'artisan:queue:work');
 
 after('deploy', 'reload:php-fpm');
 after('deploy:failed', 'deploy:unlock');
-
-//añadir comando de quewue:work
-//task('artisan:queue:work', function () {
-//    run('{{bin/php}} {{release_path}}/artisan queue:work');
-//})->desc('Ejecutar queue:work');
