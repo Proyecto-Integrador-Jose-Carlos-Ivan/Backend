@@ -84,4 +84,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Call::class, 'operador_id');
     }
+
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class, 'operator_patients', 'operator_id', 'patient_id');
+    }
 }

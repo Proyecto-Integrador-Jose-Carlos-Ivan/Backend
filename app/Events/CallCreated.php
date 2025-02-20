@@ -10,6 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Call;
+use Illuminate\Support\Facades\Log;
 
 class CallCreated implements ShouldBroadcast
 {
@@ -29,6 +30,6 @@ class CallCreated implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'CallCreated';
+        return 'callUpdated';
     }
 }

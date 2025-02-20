@@ -49,7 +49,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->categoria }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->subtipo }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->aviso_id }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->zona->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $call->zona ? $call->zona->name : 'N/A' }}</td>
                     </tr>
                 @endforeach
             </tbody>

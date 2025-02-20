@@ -72,4 +72,9 @@ class Patient extends Model
     {
         return $this->hasMany(Call::class);
     }
+
+    public function operators()
+    {
+        return $this->belongsToMany(User::class, 'operator_patients');
+    }
 }

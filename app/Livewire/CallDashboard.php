@@ -7,6 +7,7 @@ use App\Models\Call;
 use App\Models\Zone;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Broadcast;
+use Livewire\Attributes\On;
 
 class CallDashboard extends Component
 {
@@ -14,7 +15,14 @@ class CallDashboard extends Component
     public $zone;
     public $calls;
 
-    protected $listeners = ['echo:calls,CallCreated' => 'refreshCalls'];
+
+    #[On('CridadaNova')]
+    public function handleCallCreated($call)
+    {
+        $this->refreshCalls();
+        $this->dispatch('$refresh');
+
+    }
 
     public function mount()
     {

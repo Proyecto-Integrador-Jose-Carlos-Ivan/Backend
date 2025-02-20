@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CallCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,6 +60,17 @@ class Call extends Model
     public function zona()
     {
         return $this->belongsTo(Zone::class, 'zone_id');
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($call) {
+            event(new CallCreated($call));
+        });
+    
+        static::updated(function ($call) {
+            event(new CallCreated($call));
+        });
     }
 
 }

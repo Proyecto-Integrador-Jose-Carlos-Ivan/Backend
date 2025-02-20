@@ -4,8 +4,8 @@
 namespace Database\Factories;
 
 use App\Models\Zone;
-use App\Models\ContactPerson;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Patient>
@@ -34,6 +34,7 @@ class PatientFactory extends Factory
             'situacion_habitage' => fake()->text(),
             'autonomia' => fake()->text(),
             'situacion_economica' => fake()->text(),
+            'operator_id' => User::factory()->create(['role' => 'operador'])->id,
         ];
     }
 }

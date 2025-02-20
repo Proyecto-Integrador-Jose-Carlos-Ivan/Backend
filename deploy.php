@@ -53,3 +53,8 @@ before('deploy:symlink', 'build');
 
 after('deploy', 'reload:php-fpm');
 after('deploy:failed', 'deploy:unlock');
+
+//añadir comando de quewue:work
+//task('artisan:queue:work', function () {
+//    run('{{bin/php}} {{release_path}}/artisan queue:work');
+//})->desc('Ejecutar queue:work');

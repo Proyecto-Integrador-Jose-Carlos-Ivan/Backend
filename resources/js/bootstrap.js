@@ -22,8 +22,11 @@ window.Echo = new Echo({
     forceTLS: true
 });
 
+
 window.Echo.channel('calls')
-    .listen('.CallUpdated', (data) => {
-        alert('Nova Cridada: ' + data.call.id);
-        Livewire.dispatch('Cridada nova',data);
+    .listen('.callUpdated', (data) => {
+        console.log('Nova Cridada: ' + data.call.id);
+        Livewire.dispatch('CridadaNova',data);
     });
+
+console.log('Echo iniciado');
