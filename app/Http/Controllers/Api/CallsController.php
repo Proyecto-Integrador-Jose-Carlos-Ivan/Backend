@@ -67,8 +67,7 @@ class CallsController extends BaseController
     public function store(StoreCallRequestApi $request)
     {
         try {
-            $call = Call::create($request->all());
-            // broadcast(new CallCreated($call))->toOthers();
+            $call = Call::create($request->validated());
             event(new CallCreated($call));
 
             return $this->sendResponse($call, 'Llamada creada exitosamente.', 201);
@@ -146,7 +145,7 @@ class CallsController extends BaseController
     {
         try {
             $call = Call::findOrFail($id);
-            $call->update($request->all());
+            $call->update($request->validated());
 
             event(new CallCreated($call));
 

@@ -87,7 +87,7 @@ class ContactsController extends BaseController
     public function store(StoreContactRequestApi $request, $patientId)
     {
         try {
-            $data = $request->all();
+            $data = $request->validated();
             $data['paciente_id'] = $patientId;
             $contact = Contact::create($data);
             return $this->sendResponse($contact, 'Contacto creado exitosamente.', 201);
@@ -130,7 +130,7 @@ class ContactsController extends BaseController
     {
         try {
             $contact = Contact::findOrFail($id);
-            $contact->update($request->all());
+            $contact->update($request->validated());
             return $this->sendResponse($contact, 'Contacto actualizado exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Error al actualizar el contacto.', $e->getMessage());

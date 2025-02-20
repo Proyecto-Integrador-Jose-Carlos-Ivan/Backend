@@ -41,7 +41,7 @@ class AlertsController extends BaseController
     {
         try {
             $alerts = Alert::all();
-            return $this->sendResponse($alerts, 'Alertas recuperadas exitosamente.');
+            return $this->sendResponse(AlertResource::collection($alerts), 'Alertas recuperadas exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Error al recuperar las alertas.', $e->getMessage());
         }
@@ -73,7 +73,7 @@ class AlertsController extends BaseController
     {
         try {
             $alert = Alert::create($request->validated());
-            return $this->sendResponse($alert, 'Alerta creada exitosamente.', 201);
+            return $this->sendResponse(new AlertResource($alert), 'Alerta creada exitosamente.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error al crear la alerta.', $e->getMessage());
         }
@@ -108,7 +108,7 @@ class AlertsController extends BaseController
     {
         try {
             $alert = Alert::findOrFail($id);
-            return $this->sendResponse($alert, 'Alerta recuperada exitosamente.');
+            return $this->sendResponse(new AlertResource($alert), 'Alerta recuperada exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Alerta no encontrada.', null, 404);
         }
@@ -149,7 +149,7 @@ class AlertsController extends BaseController
         try {
             $alert = Alert::findOrFail($id);
             $alert->update($request->validated());
-            return $this->sendResponse($alert, 'Alerta actualizada exitosamente.');
+            return $this->sendResponse(new AlertResource($alert), 'Alerta actualizada exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Error al actualizar la alerta.', $e->getMessage());
         }

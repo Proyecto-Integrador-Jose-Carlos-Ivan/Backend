@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\OperatorResource;
 
 /**
  * @OA\Tag(
@@ -36,12 +37,7 @@ class OperatorsController extends BaseController
      */
     public function index(Request $request)
     {
-        try {
-            $operators = User::where('role', 'operador')->get();
-            return $this->sendResponse($operators, 'Operadores recuperados exitosamente.');
-        } catch (\Exception $e) {
-            return $this->sendError('Error al recuperar los operadores.', $e->getMessage());
-        }
+        return OperatorResource::collection(User::all());
     }
 
     /**
@@ -83,8 +79,8 @@ class OperatorsController extends BaseController
         }
 
         try {
-            $operator = User::create($request->all());
-            return $this->sendResponse($operator, 'Operador creado exitosamente.', 201);
+            $operator = User::create($request->validated());
+            return $this->sendResponse(new OperatorResource($operator), 'Operador creado exitosamente.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error al crear el operador.', $e->getMessage());
         }
@@ -119,7 +115,7 @@ class OperatorsController extends BaseController
     {
         try {
             $operator = User::findOrFail($id);
-            return $this->sendResponse($operator, 'Operador recuperado exitosamente.');
+            return $this->sendResponse(new OperatorResource($operator), 'Operador recuperado exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Operador no encontrado.', null, 404);
         }
@@ -174,8 +170,8 @@ class OperatorsController extends BaseController
                 return $this->sendError('Error de validación.', $validator->errors(), 422);
             }
 
-            $operator->update($request->all());
-            return $this->sendResponse($operator, 'Operador actualizado exitosamente.');
+            $operator->update($request->validated());
+            return $this->sendResponse(new OperatorResource($operator), 'Operador actualizado exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Error al actualizar el operador.', $e->getMessage());
         }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Zone;
 use App\Http\Requests\StoreZoneRequestApi;
 use App\Http\Requests\UpdateZoneRequestApi;
+use App\Http\Resources\OperatorResource;
 
 /**
  * @OA\Tag(
@@ -39,12 +40,7 @@ class ZonesController extends BaseController
      */
     public function index(Request $request)
     {
-        try {
-            $zones = Zone::all();
-            return $this->sendResponse($zones, 'Zonas recuperadas exitosamente.');
-        } catch (\Exception $e) {
-            return $this->sendError('Error al recuperar las zonas.', $e->getMessage());
-        }
+        return ZoneResource::collection(Zone::all());
     }
 
     /**
@@ -76,7 +72,7 @@ class ZonesController extends BaseController
     {
         try {
             $zone = Zone::findOrFail($id);
-            return $this->sendResponse($zone, 'Zona recuperada exitosamente.');
+            return $this->sendResponse(new ZoneResource($zone), 'Zona recuperada exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Zona no encontrada.', null, 404);
         }
@@ -116,7 +112,7 @@ class ZonesController extends BaseController
             $zone = Zone::findOrFail($id);
             // Asumiendo que Zone tiene relación 'pacientes'
             $patients = $zone->pacientes;
-            return $this->sendResponse($patients, 'Pacientes recuperados exitosamente.');
+            return $this->sendResponse(PatientResource::collection($patients), 'Pacientes recuperados exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Zona no encontrada.', null, 404);
         }
@@ -156,7 +152,7 @@ class ZonesController extends BaseController
             $zone = Zone::findOrFail($id);
             // Asumiendo que Zone tiene relación 'operadores'
             $operators = $zone->users;
-            return $this->sendResponse($operators, 'Operadores recuperados exitosamente.');
+            return $this->sendResponse(OperatorResource::collection($operators), 'Operadores recuperados exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Zona no encontrada.', null, 404);
         }
@@ -188,7 +184,7 @@ class ZonesController extends BaseController
     {
         try {
             $zone = Zone::create($request->all());
-            return $this->sendResponse($zone, 'Zona creada exitosamente.', 201);
+            return $this->sendResponse(new ZoneResource($zone), 'Zona creada exitosamente.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error al crear la zona.', $e->getMessage());
         }
@@ -229,7 +225,7 @@ class ZonesController extends BaseController
         try {
             $zone = Zone::findOrFail($id);
             $zone->update($request->all());
-            return $this->sendResponse($zone, 'Zona actualizada exitosamente.');
+            return $this->sendResponse(new ZoneResource($zone), 'Zona actualizada exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Error al actualizar la zona.', $e->getMessage());
         }
