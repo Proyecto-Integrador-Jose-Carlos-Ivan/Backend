@@ -14,7 +14,7 @@
     </x-nav-link>
 </div>
 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-    <x-nav-link :href="route('operators.index')" :active="request()->routeIs('operators.index')">
+    <x-nav-link :href="route('operators.patients')" :active="request()->routeIs('operators.patients')">
         {{ __('Asignar Pacientes a operadores') }}
     </x-nav-link>
 </div>

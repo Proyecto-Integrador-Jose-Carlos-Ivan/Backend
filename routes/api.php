@@ -21,6 +21,8 @@ Route::get('reports/done-calls-by-date/{date}', [ReportsController::class, 'getD
 Route::get('reports/call-history-by-patient-and-type/{patientId}', [ReportsController::class, 'getCallHistoryByPatientAndType']);
 Route::get('reports/patients-list', [ReportsController::class, 'getPatientsList']);
 Route::get('reports/emergencies', [ReportsController::class, 'getEmergencies']);
+Route::get('calls/historico', [ReportsController::class, 'getCallHistory']);
+Route::get('calls/realizadas', [ReportsController::class, 'getCallsDone']);
 
 Route::post('login', [AuthController::class, 'loginCredentials']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum', 'api');

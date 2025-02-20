@@ -417,6 +417,12 @@ class ReportsController extends Controller
      *         description="Fecha para el filtro.",
      *         @OA\Schema(type="string", format="date")
      *     ),
+     *     @OA\Parameter(
+     *         name="operator",
+     *         in="query",
+     *         description="ID del operator para el filtro.",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Informe generado exitosamente."
@@ -428,8 +434,8 @@ class ReportsController extends Controller
     public function getScheduledCalls(Request $request)
     {
         $zona_id = $request->query('zona') ?: null;
-
         $fecha = $request->query('fecha') ? Carbon::parse($request->query('fecha'))->startOfDay() : Carbon::parse('1800-01-01')->startOfDay();
+        $operator_id = $request->query('operator') ?: null;
 
         $callsQuery = Call::query();
 
@@ -439,6 +445,10 @@ class ReportsController extends Controller
 
         if ($zona_id) {
             $callsQuery->where('zone_id', $zona_id);
+        }
+
+        if ($operator_id) {
+            $callsQuery->where('operator_id', $operator_id);
         }
 
         $calls = $callsQuery->get();
@@ -472,7 +482,6 @@ class ReportsController extends Controller
      *         response=200,
      *         description="Informe generado exitosamente."
      *     )
-     * )
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $patientId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -492,5 +501,80 @@ class ReportsController extends Controller
 
         $data = compact('calls', 'patient', 'tipo');
         return $this->generatePdf('reports.call_history_by_patient_and_type', $data, 'call_history_by_patient_and_type_report.pdf');
+    }
+
+    public function getCallHistory(Request $request)
+    {
+        $patientId = $request->input('paciente_id');
+        $callType = $request->input('tipo');
+
+        $query = Call::query();
+
+        if ($patientId) {
+            $query->where('paciente_id', $patientId);
+        }
+
+        if ($callType) {
+            $query->where('tipo', $callType);
+        }
+
+        $calls = $query->get();
+
+        $data = compact('calls');
+        return $this->generatePdf('reports.call_history',$data , 'call_history_by_patient_and_type_report.pdf');
+
+    }
+
+    /**
+     * Genera un informe de llamadas realizadas.
+     *
+     * @OA\Get(
+     *     path="/api/reports/calls-done",
+     *     summary="Genera un informe de llamadas realizadas",
+     *     description="Genera un informe de llamadas realizadas filtrado por fecha.",
+     *     tags={"Reports"},
+     *     @OA\Parameter(
+     *         name="startDate",
+     *         in="query",
+     *         description="Fecha de inicio para el filtro.",
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="endDate",
+     *         in="query",
+     *         description="Fecha de fin para el filtro.",
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="patientId",
+     *         in="query",
+     *         description="ID del paciente para el filtro.",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Informe generado exitosamente."
+     *     )
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getCallsDone(Request $request)
+    {
+        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
+        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
+        $patientId = $request->query('patientId') ?: null;
+
+        $callsQuery = Call::query();
+        $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
+        $callsQuery->whereHas('saliente');
+
+        if ($patientId) {
+            $callsQuery->where('paciente_id', $patientId);
+        }
+
+        $calls = $callsQuery->get();
+
+        $data = compact('calls', 'startDate', 'endDate');
+        return $this->generatePdf('reports.calls_done', $data, 'calls_done_report.pdf');
     }
 }

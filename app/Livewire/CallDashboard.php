@@ -18,6 +18,7 @@ class CallDashboard extends Component
     public $operator;
     public $patient;
     public $calls;
+    public $direction;
 
 
     #[On('CridadaNova')]
@@ -58,6 +59,10 @@ class CallDashboard extends Component
 
         if ($this->patient) {
             $query->where('paciente_id', $this->patient);
+        }
+
+        if ($this->direction) {
+            $query->where('sentido', $this->direction);
         }
 
         return $query->get();

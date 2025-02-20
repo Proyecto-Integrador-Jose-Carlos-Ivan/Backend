@@ -34,10 +34,10 @@ Route::middleware(['auth', RoleMiddleware::class . ':administrador'])->group(fun
     Route::resource('patients', PatientController::class)->only(['index', 'show', 'edit', 'update', 'destroy', 'create', 'store']);
 });
 
-Route::get('/operators', function () {
+Route::get('/operators-patients', function () {
     $operators = User::where('role', 'operador')->get();
     return view('operators.operators', ['operators' => $operators]);
-})->name('operators.index');
+})->name('operators.patients');
 
 Route::post('/assign-patients', function (Request $request) {
     $operatorId = $request->input('operatorId');
@@ -58,7 +58,7 @@ Route::post('/remove-patient', function (Request $request) {
         $operator->patients()->detach($patientId);
     }
 
-    return redirect()->route('operators.index');
+    return redirect()->route('operators.patients');
 })->name('remove.patient');
 
 require __DIR__ . '/auth.php';
