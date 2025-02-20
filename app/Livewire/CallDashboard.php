@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Call;
 use App\Models\Zone;
+use App\Models\User;
+use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Broadcast;
 use Livewire\Attributes\On;
@@ -13,6 +15,8 @@ class CallDashboard extends Component
 {
     public $date;
     public $zone;
+    public $operator;
+    public $patient;
     public $calls;
 
 
@@ -31,12 +35,7 @@ class CallDashboard extends Component
 
     }
 
-    public function updatedDate()
-    {
-        $this->calls = $this->getCalls();
-    }
-
-    public function updatedZone()
+    public function applyFilters()
     {
         $this->calls = $this->getCalls();
     }
@@ -53,6 +52,14 @@ class CallDashboard extends Component
             $query->where('zone_id', $this->zone);
         }
 
+        if ($this->operator) {
+            $query->where('operador_id', $this->operator);
+        }
+
+        if ($this->patient) {
+            $query->where('paciente_id', $this->patient);
+        }
+
         return $query->get();
     }
 
@@ -63,7 +70,14 @@ class CallDashboard extends Component
 
     public function render()
     {
-        $zones = Zone::all();
-        return view('livewire.call-dashboard', ['zones' => $zones , 'calls' => $this->calls]);
+        $zones = Zone::orderBy('name')->get();
+        $operators = User::where('role', 'operador')->orderBy('name')->get();
+        $patients = Patient::orderBy('nombre')->get();
+        return view('livewire.call-dashboard', [
+            'zones' => $zones ,
+            'calls' => $this->calls,
+            'operators' => $operators,
+            'patients' => $patients,
+            ]);
     }
 }

@@ -1,7 +1,7 @@
 <div class="container mx-auto px-4">
-    <h1 class="text-3xl font-bold my-6 text-gray-800">Call Dashboard</h1>
+    <h1 class="text-3xl font-bold my-6 text-gray-800">Listado de llamadas</h1>
 
-    <div class="mb-6 flex space-x-4">
+    <div class="mb-6 flex flex-wrap space-x-4">
         <div>
             <label for="date" class="block text-sm font-medium text-gray-700">Fecha</label>
             <input type="date" id="date" wire:model="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -16,11 +16,33 @@
                 @endforeach
             </select>
         </div>
-    </div>
 
-    <h2 class="text-xl font-semibold text-gray-800 mb-4">
-        Llamadas para {{ $date }} en {{ $zone->name ?? 'Todas las Zonas' }}
-    </h2>
+        <div>
+            <label for="operator" class="block text-sm font-medium text-gray-700">Operador</label>
+            <select id="operator" wire:model="operator" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <option value="">Todos los Operadores</option>
+                @foreach ($operators as $operator)
+                    <option value="{{ $operator->id }}">{{ $operator->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label for="patient" class="block text-sm font-medium text-gray-700">Paciente</label>
+            <select id="patient" wire:model="patient" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <option value="">Todos los Pacientes</option>
+                @foreach ($patients as $patient)
+                    <option value="{{ $patient->id }}">{{ $patient->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mt-6">
+            <button wire:click="applyFilters" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Aplicar Filtros
+            </button>
+        </div>
+    </div>
 
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
