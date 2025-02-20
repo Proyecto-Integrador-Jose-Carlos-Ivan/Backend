@@ -37,7 +37,12 @@ class AssignPatientsToOperator extends Component
     public function render()
     {
         $operator = User::find($this->operatorId);
-        $patients = Patient::where('nombre', 'like', '%'.$this->search.'%')->paginate(10);
+
+        $assignedPatientIds = $operator->patients()->pluck('pacientes.id')->toArray();
+
+        $patients = Patient::where('nombre', 'like', '%'.$this->search.'%')
+            ->whereNotIn('id', $assignedPatientIds)
+            ->paginate(10);
 
         return view('livewire.assign-patients-to-operator', [
             'operator' => $operator,

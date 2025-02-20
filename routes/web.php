@@ -7,10 +7,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Api\CallsController;
-use App\Http\Controllers\Api\ReportsController;
 use App\Livewire\AssignPatientsToOperator;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PatientController;
 
 Route::get('/', function () {
     return redirect(route('login'));
@@ -31,6 +31,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':administrador'])->group(fun
     Route::resource('zones', ZonesController::class)->only(['index', 'show', 'edit', 'update', 'destroy', 'create', 'store']);
     Route::resource('calls', CallsController::class)->only(['index', 'show']);
     Route::get('/calls', [CallsController::class, 'calls'])->name('calls.calls');
+    Route::resource('patients', PatientController::class)->only(['index', 'show', 'edit', 'update', 'destroy', 'create', 'store']);
 });
 
 Route::get('/operators', function () {
@@ -43,7 +44,9 @@ Route::post('/assign-patients', function (Request $request) {
     return redirect()->route('assign.patients', ['operatorId' => $operatorId]);
 })->name('assign.patients.form');
 
-Route::get('/assign-patients/{operatorId}', AssignPatientsToOperator::class)->name('assign.patients');
+Route::get('/assign-patients/{operatorId}', function ($operatorId) {
+    return view('assign', ['operatorId' => $operatorId]);
+})->name('assign.patients');
 
 Route::post('/remove-patient', function (Request $request) {
     $operatorId = $request->input('operator_id');

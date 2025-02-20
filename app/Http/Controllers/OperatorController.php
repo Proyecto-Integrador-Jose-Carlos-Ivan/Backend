@@ -34,6 +34,11 @@ class OperatorController extends Controller
         return redirect()->route('operators.index')->with('success', 'Operator created successfully.');
     }
 
+    public function show(User $operator)
+    {
+        return view('operators.show', compact('operator'));
+    }
+
     public function edit(User $operator)
     {
         return view('operators.edit', compact('operator'));

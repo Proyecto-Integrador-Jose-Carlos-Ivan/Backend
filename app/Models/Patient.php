@@ -75,6 +75,6 @@ class Patient extends Model
 
     public function operators()
     {
-        return $this->belongsToMany(User::class, 'operator_patients');
+        return $this->belongsToMany(User::class, 'operator_patients', 'patient_id', 'operator_id');
     }
 }
