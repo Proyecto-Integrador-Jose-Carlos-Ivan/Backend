@@ -35,6 +35,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Apellidos</th>
                 <th>DNI</th>
                 <th>SIP</th>
                 <th>Telefono</th>
@@ -50,6 +51,7 @@
             <tr>
                 <td>{{ $patient->id }}</td>
                 <td>{{ $patient->nombre }}</td>
+                <td>{{ $patient->apellidos }}</td>
                 <td>{{ $patient->dni }}</td>
                 <td>{{ $patient->sip }}</td>
                 <td>{{ $patient->telefono }}</td>

@@ -13,6 +13,6 @@ class CallSeeder extends Seeder
      */
     public function run(): void
     {
-        Call::factory(20)->create();
+        Call::factory(40)->create();
     }
 }

@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <h1>Informe de emergencias</h1>
+    <h1>Informe de llamadas de emergencia</h1>
     <p><strong>Fecha de inicio:</strong> {{ $startDate }}</p>
     <p><strong>Fecha de fin:</strong> {{ $endDate }}</p>
     <table>
@@ -31,7 +31,7 @@
                     <td>{{ $call->paciente->nombre }}</td>
                     <td>{{ $call->operador->name }}</td>
                     <td>{{ $call->fecha_hora }}</td>
-                    <td>{{ $call->categoria }}</td>
+                    <td>{{ 'Emergencia' }}</td>
                     <td>{{ $call->zona->name }}</td>
                 </tr>
             @endforeach

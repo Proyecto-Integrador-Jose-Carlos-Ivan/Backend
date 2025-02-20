@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Scheduled Calls Report</title>
+    <title>Llamadas previstas</title>
     <style>
         body { font-family: Arial, sans-serif; }
         table { width: 100%; border-collapse: collapse; }
@@ -10,45 +10,31 @@
     </style>
 </head>
 <body>
-    <h1>Scheduled Calls Report</h1>
-    <p><strong>Start Date:</strong> {{ $startDate }}</p>
-    <p><strong>End Date:</strong> {{ $endDate }}</p>
+    <h1>Informe de llamadas programadas</h1>
 
-    <h2>Alerts with Calls</h2>
+    <h2>Llamadas programadas</h2>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Date</th>
-                <th>Zone ID</th>
+                <th>Fecha</th>
+                <th>Paciente</th>
+                <th>Descripcion</th>
+                <th>Categoria</th>
+                <th>Motivo</th>
+                <th>Zona</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($alertsWithCalls as $alert)
+            @foreach($calls as $call)
                 <tr>
-                    <td>{{ $alert->id }}</td>
-                    <td>{{ $alert->date }}</td>
-                    <td>{{ $alert->zoneId }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <h2>Alerts without Calls</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Date</th>
-                <th>Zone ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($alertsWithoutCalls as $alert)
-                <tr>
-                    <td>{{ $alert->id }}</td>
-                    <td>{{ $alert->date }}</td>
-                    <td>{{ $alert->zoneId }}</td>
+                    <td>{{ $call->id }}</td>
+                    <td>{{ $call->fecha_hora }}</td>
+                    <td>{{ $call->paciente->nombre }}</td>
+                    <td>{{ $call->descripcion }}</td>
+                    <td>{{ $call->categoria }}</td>
+                    <td>{{ $call->subtipo }}</td>
+                    <td>{{ $call->zona->name }}</td> 
                 </tr>
             @endforeach
         </tbody>

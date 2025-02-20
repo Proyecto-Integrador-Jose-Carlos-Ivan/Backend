@@ -13,6 +13,6 @@ class AlertSeeder extends Seeder
      */
     public function run(): void
     {
-        Alert::factory(15)->create();
+        Alert::factory(30)->create();
     }
 }

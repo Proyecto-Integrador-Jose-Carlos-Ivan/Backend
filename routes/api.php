@@ -16,7 +16,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum', 'api');
 
 Route::get('reports/emergency-actions-by-zone/{zoneId}', action: [ReportsController::class, 'getEmergencyActionsByZone']);
-Route::get('reports/scheduled-calls-by-date/{date}', [ReportsController::class, 'getScheduledCallsByDate']);
+Route::get('reports/scheduled-calls', [ReportsController::class, 'getScheduledCalls']);
 Route::get('reports/done-calls-by-date/{date}', [ReportsController::class, 'getDoneCallsByDate']);
 Route::get('reports/call-history-by-patient-and-type/{patientId}', [ReportsController::class, 'getCallHistoryByPatientAndType']);
 Route::get('reports/patients-list', [ReportsController::class, 'getPatientsList']);

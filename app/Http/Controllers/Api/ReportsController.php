@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
@@ -50,16 +51,22 @@ class ReportsController extends Controller
     {
         $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
         $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
-        $type = $request->query('sentido');
+        $zona_id = $request->query('zona');
 
         $callsQuery = Call::query();
-        // $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
-        if ($type) {
-            $callsQuery = $this->applyTypeFilter($callsQuery, $type, true);
+
+        if ($zona_id) {
+            $callsQuery->where('zone_id', $zona_id);
         }
+
+        if ($startDate && $endDate) {
+            $callsQuery->whereBetween('fecha_hora', [$startDate, $endDate]);
+        }
+        $callsQuery->where('categoria', 'atencion_emergencias');
+
         $calls = $callsQuery->get();
 
-        $data = compact('calls', 'startDate', 'endDate');
+        $data = compact('calls', 'startDate', 'endDate', 'zona_id');
         return $this->generatePdf('reports.emergencies', $data, 'emergencies_report.pdf');
     }
 
@@ -80,32 +87,12 @@ class ReportsController extends Controller
         return $this->generatePdf('reports.socials', $data, 'socials_report.pdf');
     }
 
-    public function getMonitorings(Request $request)
-    {
-        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
-        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
-        $type = $request->query('sentido');
-
-        $callsQuery = Call::query();
-        $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
-        if ($type) {
-            $callsQuery = $this->applyTypeFilter($callsQuery, $type, false);
-        }
-        $calls = $callsQuery->get();
-
-        $data = compact('calls', 'startDate', 'endDate');
-        return $this->generatePdf('reports.monitoring', $data, 'monitoring_report.pdf');
-    }
-
     public function getAllPatients(Request $request)
     {
-        $patients = Patient::query();
+        $patients = Patient::query()
+            ->orderBy('apellidos')
+            ->get();
 
-        foreach ($request->query() as $key => $value) {
-            $patients->where($key, $value);
-        }
-
-        $patients = $patients->get();
         $data = compact('patients');
         return $this->generatePdf('reports.patients', $data, 'patients_report.pdf');
     }
@@ -128,90 +115,6 @@ class ReportsController extends Controller
         return $this->generatePdf('reports.patient_history', $data, 'patient_history_report.pdf');
     }
 
-
-    public function getScheduledCalls(Request $request)
-    {
-        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
-        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
-        $zona_id = $request->query('zona_id') ?: null;
-
-        if ($zona_id) {
-            $alertsWithCalls = Alert::where('zona_id', $zona_id)->whereBetween('date', [$startDate, $endDate])->get();
-            $alertsWithoutCalls = Alert::where('zona_id', $zona_id)->whereBetween('date', [$startDate, $endDate])->get();
-        } else {
-            $alertsWithCalls = Alert::whereBetween('fecha', [$startDate, $endDate])->get();
-            $alertsWithoutCalls = Alert::whereBetween('fecha', [$startDate, $endDate])->get();
-        }
-
-        $data = compact('alertsWithCalls', 'alertsWithoutCalls', 'startDate', 'endDate');
-        return $this->generatePdf('reports.scheduled_calls', $data, 'scheduled_calls_report.pdf');
-    }
-
-    public function doneCalls(Request $request)
-    {
-        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
-        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
-        $type = $request->query('type');
-
-        $incomingCallsQuery = Call::query()->whereHas('entrante');
-        $outgoingCallsQuery = Call::query()->whereHas('saliente');
-
-        $incomingCallsQuery = $this->applyDateFilters($incomingCallsQuery, $startDate, $endDate);
-        $outgoingCallsQuery = $this->applyDateFilters($outgoingCallsQuery, $startDate, $endDate);
-
-        if ($type) {
-            $incomingCallsQuery = $this->applyTypeFilter($incomingCallsQuery, $type, true);
-            $outgoingCallsQuery = $this->applyTypeFilter($outgoingCallsQuery, $type, false);
-        }
-
-        $incomingCalls = $incomingCallsQuery->get();
-        $outgoingCalls = $outgoingCallsQuery->get();
-
-        $data = compact('incomingCalls', 'outgoingCalls', 'startDate', 'endDate');
-        return $this->generatePdf('reports.done_calls', $data, 'done_calls_report.pdf');
-    }
-
-    public function getScheduledAndDoneCalls(Request $request)
-    {
-        $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
-        $endDate = $request->query('endDate') ? Carbon::parse($request->query('endDate'))->endOfDay() : Carbon::now()->endOfYear();
-        $zona_id = $request->query('zona_id') ?: null;
-        $type = $request->query('tipo') ?: null;
-        $sentido = $request->query('sentido') ?: null;
-
-        // Fetch scheduled calls (alerts)
-        $alertsQuery = Alert::query();
-        $alertsQuery = $this->applyDateFilters($alertsQuery, $startDate, $endDate, 'fecha');
-    
-        if ($zona_id) {
-            $alertsQuery->where('zona_id', $zona_id);
-        }
-    
-        $alerts = $alertsQuery->get();
-    
-        // Fetch done calls
-        $callsQuery = Call::query();
-        $callsQuery = $this->applyDateFilters($callsQuery, $startDate, $endDate);
-    
-        if ($zona_id) {
-            $callsQuery->where('zone_id', $zona_id);
-        }
-    
-        if ($type) {
-            $callsQuery->where('categoria', $type);
-        }
-    
-        if ($sentido) {
-            $callsQuery->where('sentido', $sentido);
-        }
-    
-        $calls = $callsQuery->get();
-        dd($calls);
-
-        $data = compact('alerts', 'calls', 'startDate', 'endDate');
-        return $this->generatePdf('reports.scheduled_and_done_calls', $data, 'scheduled_and_done_calls_report.pdf');
-    }
-
     public function getEmergencyActionsByZone(Request $request, $zoneId)
     {
         $startDate = $request->query('startDate') ? Carbon::parse($request->query('startDate'))->startOfDay() : Carbon::now()->startOfYear();
@@ -231,42 +134,23 @@ class ReportsController extends Controller
 
     public function getPatientsList(Request $request)
     {
-        $patients = Patient::orderBy('nombre')->get();
+        $patients = Patient::orderBy('apellidos')->get();
 
         $data = compact('patients');
         return $this->generatePdf('reports.patients_list', $data, 'patients_list_report.pdf');
     }
 
-    public function getScheduledCallsByDate(Request $request, $date)
+    public function getScheduledCalls(Request $request)
     {
-        $type = $request->query('type') ?: null;
-        $zona_id = $request->query('zona_id') ?: null;
+        $zona_id = $request->query('zona') ?: null;
 
-        $alertsQuery = Alert::where('date', $date);
+        $fecha = $request->query('fecha') ? Carbon::parse($request->query('fecha'))->startOfDay() : Carbon::parse('1800-01-01')->startOfDay();
 
-        if ($type) {
-            $alertsQuery->where('type', $type);
-        }
+        $callsQuery = Call::query();
 
-        if ($zona_id) {
-            $alertsQuery->where('zona_id', $zona_id);
-        }
-
-        $alerts = $alertsQuery->get();
-
-        $data = compact('alerts', 'date', 'type', 'zona_id');
-        return $this->generatePdf('reports.scheduled_calls_by_date', $data, 'scheduled_calls_by_date_report.pdf');
-    }
-
-    public function getDoneCallsByDate(Request $request, $date)
-    {
-        $type = $request->query('type') ?: null;
-        $zona_id = $request->query('zona_id') ?: null;
-
-        $callsQuery = Call::whereDate('fecha_hora', $date);
-
-        if ($type) {
-            $callsQuery->where('categoria', $type);
+        // dd($fecha);
+        if($fecha != '1800-01-01'){
+            $callsQuery->where('fecha_hora', '>=', $fecha);
         }
 
         if ($zona_id) {
@@ -275,8 +159,8 @@ class ReportsController extends Controller
 
         $calls = $callsQuery->get();
 
-        $data = compact('calls', 'date', 'type', 'zona_id');
-        return $this->generatePdf('reports.done_calls_by_date', $data, 'done_calls_by_date_report.pdf');
+        $data = compact('calls');
+        return $this->generatePdf('reports.scheduled_calls', $data, 'scheduled_calls_report.pdf');
     }
 
     public function getCallHistoryByPatientAndType(Request $request, $patientId)
@@ -292,7 +176,7 @@ class ReportsController extends Controller
         $calls = $callsQuery->get();
         $patient = Patient::find($patientId);
 
-        $data = compact('calls', 'patient', 'type');
+        $data = compact('calls', 'patient', 'tipo');
         return $this->generatePdf('reports.call_history_by_patient_and_type', $data, 'call_history_by_patient_and_type_report.pdf');
     }
 }

@@ -21,6 +21,7 @@ class PatientFactory extends Factory
     {
         return [
             'nombre' => fake()->name(),
+            'apellidos' => fake()->lastName(),
             'fecha_nacimiento' => fake()->date(),
             'direccion' => fake()->address(),
             'dni' => fake()->unique()->randomNumber(8),
