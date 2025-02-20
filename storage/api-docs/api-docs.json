@@ -1226,6 +1226,328 @@
                 ]
             }
         },
+        "/api/reports/emergencies": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe de emergencias",
+                "description": "Genera un informe de emergencias filtrado por fecha y zona.",
+                "operationId": "a7035d6b4325e11c11227b01d52211e2",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Fecha de inicio para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "Fecha de fin para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "zona",
+                        "in": "query",
+                        "description": "ID de la zona para el filtro.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/socials": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe de acciones sociales",
+                "description": "Genera un informe de acciones sociales filtrado por fecha y tipo.",
+                "operationId": "358af1802542e8438c356197a78d6708",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Fecha de inicio para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "Fecha de fin para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "sentido",
+                        "in": "query",
+                        "description": "Tipo de acción social para el filtro.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/monitorings": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe de monitorizaciones",
+                "description": "Genera un informe de monitorizaciones filtrado por fecha y tipo.",
+                "operationId": "d500772c53eb0cfc0cb179832a4974c1",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Fecha de inicio para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "Fecha de fin para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "sentido",
+                        "in": "query",
+                        "description": "Tipo de monitorización para el filtro.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/patients": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe de todos los pacientes",
+                "description": "Genera un informe de todos los pacientes, ordenados alfabéticamente por apellido.",
+                "operationId": "3199f7f39637bc3c445e1527764d0643",
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/patient_history/{id}": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe del historial de un paciente",
+                "description": "Genera un informe del historial de un paciente filtrado por fecha y tipo.",
+                "operationId": "55a67e4f16b240fe335787cd739f1204",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del paciente.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Fecha de inicio para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "Fecha de fin para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "sentido",
+                        "in": "query",
+                        "description": "Tipo de acción para el filtro.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/emergency-actions-by-zone/{zoneId}": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe de acciones de emergencia por zona",
+                "description": "Genera un informe de acciones de emergencia por zona filtrado por fecha.",
+                "operationId": "2d633fce117517f100239e885739e700",
+                "parameters": [
+                    {
+                        "name": "zoneId",
+                        "in": "path",
+                        "description": "ID de la zona.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Fecha de inicio para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "Fecha de fin para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/patients-list": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un listado de pacientes",
+                "description": "Genera un listado de pacientes ordenados por apellido.",
+                "operationId": "91d9db2b816d221bbb7db4c184904732",
+                "responses": {
+                    "200": {
+                        "description": "Listado generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/scheduled-calls": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe de llamadas programadas",
+                "description": "Genera un informe de llamadas programadas filtrado por zona y fecha.",
+                "operationId": "4d99b785e826b3de6517d8a52bddbef8",
+                "parameters": [
+                    {
+                        "name": "zona",
+                        "in": "query",
+                        "description": "ID de la zona para el filtro.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "fecha",
+                        "in": "query",
+                        "description": "Fecha para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/call-history-by-patient-and-type/{patientId}": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe del historial de llamadas de un paciente por tipo",
+                "description": "Genera un informe del historial de llamadas de un paciente por tipo.",
+                "operationId": "760607f0199b3a5d002a4a451add8f0e",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "ID del paciente.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "tipo",
+                        "in": "query",
+                        "description": "Tipo de llamada para el filtro.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
         "/api/zones": {
             "get": {
                 "tags": [
@@ -2601,6 +2923,10 @@
         {
             "name": "Pacientes",
             "description": "Operaciones relacionadas con los pacientes."
+        },
+        {
+            "name": "Reports",
+            "description": "Operaciones relacionadas con la generación de informes."
         },
         {
             "name": "Zonas",

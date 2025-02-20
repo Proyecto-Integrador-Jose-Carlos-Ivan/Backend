@@ -10,7 +10,17 @@ window.axios.defaults.withXSRFToken = true;
  * allow your team to quickly build robust real-time web applications.
  */
 
-import './echo';
+import Echo from 'laravel-echo';
+
+import Pusher from 'pusher-js';
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});
 
 window.Echo.channel('calls')
     .listen('.CallUpdated', (data) => {

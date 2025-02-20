@@ -68,7 +68,9 @@ class CallsController extends BaseController
     {
         try {
             $call = Call::create($request->all());
-            broadcast(new CallCreated($call))->toOthers();
+            // broadcast(new CallCreated($call))->toOthers();
+            event(new CallCreated($call));
+
             return $this->sendResponse($call, 'Llamada creada exitosamente.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error al crear la llamada.', $e->getMessage());
@@ -145,6 +147,9 @@ class CallsController extends BaseController
         try {
             $call = Call::findOrFail($id);
             $call->update($request->all());
+
+            event(new CallCreated($call));
+
             return $this->sendResponse($call, 'Llamada actualizada exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Error al actualizar la llamada.', $e->getMessage());
@@ -180,6 +185,8 @@ class CallsController extends BaseController
         try {
             $call = Call::findOrFail($id);
             $call->delete();
+            event(new CallCreated($call));
+
             return $this->sendResponse(null, 'Llamada eliminada exitosamente.', 204);
         } catch (\Exception $e) {
             return $this->sendError('Error al eliminar la llamada.', $e->getMessage());
