@@ -23,6 +23,7 @@ Route::get('reports/patients-list', [ReportsController::class, 'getPatientsList'
 Route::get('reports/emergencies', [ReportsController::class, 'getEmergencies']);
 
 Route::post('login', [AuthController::class, 'loginCredentials']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum', 'api');
 
 Route::middleware(['auth:sanctum', 'api'])->group(function () {
 
