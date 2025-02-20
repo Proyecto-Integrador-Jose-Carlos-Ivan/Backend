@@ -38,7 +38,15 @@ class StoreCallRequestApi extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'fecha_hora' => 'required|date',
+            'operador_id' => 'required|exists:operadores,id',
+            'paciente_id' => 'required|exists:pacientes,id',
+            'descripcion' => 'nullable|string',
+            'sentido' => 'required|in:entrante,saliente',
+            'categoria' => 'required|in:atencion_emergencias,comunicaciones_no_urgentes,no_planificada,planificada',
+            'subtipo' => 'nullable|in:emergencias_sociales,emergencias_sanitarias,emergencias_crisis_soledad,emergencias_alarma_sin_respuesta,notificar_ausencias,modificar_datos,llamadas_accidentales,peticion_informacion,sugerencias_quejas,llamadas_sociales,registrar_citas,otros',
+            'aviso_id' => 'nullable|exists:avisos,id',
+            'zone_id' => 'nullable|exists:zones,id',
         ];
     }
 

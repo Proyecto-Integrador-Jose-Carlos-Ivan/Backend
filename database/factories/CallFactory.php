@@ -28,7 +28,7 @@ class CallFactory extends Factory
             'descripcion' => fake()->text(),
             'sentido' => fake()->randomElement(['entrante', 'saliente']),
             'categoria' => fake()->randomElement(['atencion_emergencias', 'comunicaciones_no_urgentes', 'no_planificada', 'planificada']),
-            'subtipo' => fake()->optional()->randomElement(['emergencias_sociales', 'emergencias_sanitarias', 'emergencias_crisis_soledad', 'emergencias_alarma_sin_respuesta', 'notificar_ausencias', 'modificar_datos', 'llamadas_accidentales', 'peticion_informacion', 'sugerencias_quejas', 'llamadas_sociales', 'registrar_citas', 'otros']),
+            'subtipo' => fake()->randomElement(['emergencias_sociales', 'emergencias_sanitarias', 'emergencias_crisis_soledad', 'emergencias_alarma_sin_respuesta', 'notificar_ausencias', 'modificar_datos', 'llamadas_accidentales', 'peticion_informacion', 'sugerencias_quejas', 'llamadas_sociales', 'registrar_citas', 'otros']),
             'aviso_id' => Alert::factory(),
             'zone_id' => Zone::factory(),
         ];
