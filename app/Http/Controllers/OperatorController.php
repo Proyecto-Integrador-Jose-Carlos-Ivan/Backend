@@ -10,9 +10,10 @@ class OperatorController extends Controller
 {
     public function index()
     {
-        $operators = User::all();
+        $operators = User::where('role', 'operador')->get();
         return view('operators.index', compact('operators'));
     }
+
 
     public function create()
     {
