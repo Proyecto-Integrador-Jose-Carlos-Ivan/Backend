@@ -1505,6 +1505,14 @@
                             "type": "string",
                             "format": "date"
                         }
+                    },
+                    {
+                        "name": "operator",
+                        "in": "query",
+                        "description": "ID del operator para el filtro.",
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -1538,6 +1546,49 @@
                         "description": "Tipo de llamada para el filtro.",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informe generado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/reports/calls-done": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Genera un informe de llamadas realizadas",
+                "description": "Genera un informe de llamadas realizadas filtrado por fecha.",
+                "operationId": "a83c1a0a3304f434a923e2413d17072a",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Fecha de inicio para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "Fecha de fin para el filtro.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "patientId",
+                        "in": "query",
+                        "description": "ID del paciente para el filtro.",
+                        "schema": {
+                            "type": "integer"
                         }
                     }
                 ],
@@ -1920,6 +1971,15 @@
             "StoreCallRequest": {
                 "title": "Store Call Request",
                 "description": "Store Call request body data",
+                "required": [
+                    "fecha_hora",
+                    "operador_id",
+                    "paciente_id",
+                    "descripcion",
+                    "sentido",
+                    "categoria",
+                    "subtipo"
+                ],
                 "properties": {
                     "fecha_hora": {
                         "description": "Call date and time",
@@ -1939,8 +1999,12 @@
                         "type": "string"
                     },
                     "sentido": {
-                        "description": "Call direction (entrante/saliente)",
-                        "type": "string"
+                        "description": "Call direction",
+                        "type": "string",
+                        "enum": [
+                            "entrante",
+                            "saliente"
+                        ]
                     },
                     "categoria": {
                         "description": "Call category",
@@ -2433,6 +2497,65 @@
                         "description": "Patient ID",
                         "type": "integer",
                         "format": "int64"
+                    }
+                },
+                "type": "object"
+            },
+            "Operator": {
+                "title": "Operator",
+                "description": "Operator resource",
+                "properties": {
+                    "id": {
+                        "description": "Operator ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Operator name",
+                        "type": "string"
+                    },
+                    "apellidos": {
+                        "description": "Operator surnames",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Operator email",
+                        "type": "string"
+                    },
+                    "telefono": {
+                        "description": "Operator phone",
+                        "type": "string"
+                    },
+                    "lenguas": {
+                        "description": "Operator languages",
+                        "type": "string"
+                    },
+                    "fecha_contratacion": {
+                        "description": "Operator hiring date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "fecha_baja": {
+                        "description": "Operator resignation date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "username": {
+                        "description": "Operator username",
+                        "type": "string"
+                    },
+                    "role": {
+                        "description": "Operator role",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Operator creation date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Operator update date",
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"

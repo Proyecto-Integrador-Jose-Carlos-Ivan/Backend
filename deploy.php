@@ -39,13 +39,17 @@ task('deploy:vendors', function () {
     run('cd {{release_path}} && composer install --optimize-autoloader');
 });
 
+task('generate:swagger', function () {
+    run('{{bin/php}} {{release_path}}/artisan l5-swagger:generate');
+})->desc('Generate Swagger documentation');
+
 // task('artisan:queue:work', function () {
 //     run('{{bin/php}} {{release_path}}/artisan queue:work');
 //  })->desc('Ejecutar queue:work');
 
-// task('artisan:queue:restart', function () {
-//     run('{{bin/php}} {{release_path}}/artisan queue:restart');
-// })->desc('Restart queue workers');
+task('artisan:queue:restart', function () {
+    run('{{bin/php}} {{release_path}}/artisan queue:restart');
+})->desc('Restart queue workers');
 
 task('artisan:queue:work', function () {
     run('{{bin/php}} {{release_path}}/artisan queue:work &');
@@ -58,8 +62,10 @@ before('deploy:symlink', 'artisan:migrate:fresh:seed');
 before('deploy:symlink', 'deploy:vendors');
 before('deploy:symlink', 'build');
 // after('reload:php-fpm', 'artisan:queue:work');
-// after('deploy', 'artisan:queue:restart');
+after('deploy', 'artisan:queue:restart');
 // after('deploy', 'artisan:queue:work');
+after('deploy', 'generate:swagger');
+
 
 after('deploy', 'reload:php-fpm');
 after('deploy:failed', 'deploy:unlock');

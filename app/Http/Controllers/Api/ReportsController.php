@@ -482,6 +482,7 @@ class ReportsController extends Controller
      *         response=200,
      *         description="Informe generado exitosamente."
      *     )
+     * )
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $patientId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -555,6 +556,7 @@ class ReportsController extends Controller
      *         response=200,
      *         description="Informe generado exitosamente."
      *     )
+     * )
      * @param  \Illuminate\Http\Request  $request
      * @return \Symfony\Component\HttpFoundation\Response
      */

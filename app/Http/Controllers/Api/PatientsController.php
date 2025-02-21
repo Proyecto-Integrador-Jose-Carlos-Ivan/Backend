@@ -34,7 +34,6 @@ class PatientsController extends BaseController
      *         )
      *     ),
      *     @OA\Response(response=500, description="Error interno del servidor")
-     *     @OA\Response(response=500, description="Error interno del servidor")
      * )
      */
     public function index()
@@ -67,7 +66,6 @@ class PatientsController extends BaseController
      *         @OA\JsonContent(ref="#/components/schemas/Patient")
      *     ),
      *     @OA\Response(response=400, description="Solicitud incorrecta"),
-     *     @OA\Response(response=500, description="Error interno del servidor")
      *     @OA\Response(response=500, description="Error interno del servidor")
      * )
      */
