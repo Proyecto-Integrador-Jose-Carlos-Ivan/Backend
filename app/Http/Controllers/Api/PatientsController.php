@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\PatientResource;
-use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Http\Requests\StorePatientRequestApi;
 use App\Http\Requests\UpdatePatientRequestApi;
@@ -34,15 +33,16 @@ class PatientsController extends BaseController
      *         )
      *     ),
      *     @OA\Response(response=500, description="Error interno del servidor")
+     *     @OA\Response(response=500, description="Error interno del servidor")
      * )
      */
-    public function index(Request $request)
+    public function index()
     {
         try {
             // Listar Patients, opcionalmente filtrados por zona
             $patients = Patient::all();
             return $this->sendResponse(PatientResource::collection($patients), 'Pacientes recuperados exitosamente.');
-        } catch (\Exception $e) {
+        }catch (\Exception $e) {
             return $this->sendError('Error al recuperar los pacientes.', $e->getMessage());
         }
     }
@@ -67,18 +67,18 @@ class PatientsController extends BaseController
      *     ),
      *     @OA\Response(response=400, description="Solicitud incorrecta"),
      *     @OA\Response(response=500, description="Error interno del servidor")
+     *     @OA\Response(response=500, description="Error interno del servidor")
      * )
      */
-    public function store(Request $request)
+    public function store(StorePatientRequestApi $request)
     {
         try {
-            $patient = Patient::create($request->validated());
+            $patient = Patient::create($request->all());
             return $this->sendResponse(new PatientResource($patient), 'Paciente creado exitosamente.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error al crear el paciente.', $e->getMessage());
         }
     }
-
     /**
      * Display the specified resource.
      *
