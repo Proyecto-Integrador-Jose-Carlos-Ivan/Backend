@@ -69,10 +69,10 @@ class AlertsController extends BaseController
      *     @OA\Response(response=500, description="Error interno del servidor")
      * )
      */
-    public function store(Request $request)
+    public function store(StoreAlertRequestApi $request)
     {
         try {
-            $alert = Alert::create($request->all());
+            $alert = Alert::create($request->validated());
             return $this->sendResponse(new AlertResource($alert), 'Alerta creada exitosamente.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error al crear la alerta.', $e->getMessage());

@@ -40,17 +40,17 @@ class StoreAlertRequestApi extends FormRequest
     public function rules(): array
     {
         return [
-            // 'recurrencia' => 'required|in:puntual,periodic',
-            // 'tipo' => 'required|in:avisos,protocolos,ausencias_retornos',
-            // 'subtipo' => [
-            //     'required',
-            //     Rule::in($this->allowedSubtipos()),
-            // ],
-            // 'fecha' => 'nullable|date',
-            // 'dia_semana' => 'nullable|integer|min:1|max:7',
-            // 'operador_id' => 'required|exists:users,id',
-            // 'paciente_id' => 'required|exists:pacientes,id',
-            // 'zona_id' => 'nullable|exists:zonas,id',
+            'recurrencia' => 'required|in:puntual,periodic',
+            'tipo' => 'required|in:avisos,protocolos,ausencias_retornos',
+            'subtipo' => [
+                'required',
+                Rule::in($this->allowedSubtipos()),
+            ],
+            'fecha' => 'nullable|date',
+            'dia_semana' => 'nullable|integer|min:1|max:7',
+            'operador_id' => 'required|exists:users,id',
+            'paciente_id' => 'required|exists:pacientes,id',
+            'zona_id' => 'nullable|exists:zonas,id',
         ];
     }
 
