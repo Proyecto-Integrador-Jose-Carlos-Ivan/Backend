@@ -51,6 +51,7 @@ class Patient extends Model
         'situacion_habitage',
         'autonomia',
         'situacion_economica',
+        'operator_id'
     ];
 
     public function zona()

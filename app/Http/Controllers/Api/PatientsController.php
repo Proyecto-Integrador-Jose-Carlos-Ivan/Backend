@@ -6,6 +6,7 @@ use App\Http\Resources\PatientResource;
 use App\Models\Patient;
 use App\Http\Requests\StorePatientRequestApi;
 use App\Http\Requests\UpdatePatientRequestApi;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Tag(
@@ -70,7 +71,7 @@ class PatientsController extends BaseController
      *     @OA\Response(response=500, description="Error interno del servidor")
      * )
      */
-    public function store(StorePatientRequestApi $request)
+    public function store(Request $request)
     {
         try {
             $patient = Patient::create($request->all());
@@ -144,11 +145,11 @@ class PatientsController extends BaseController
      *     @OA\Response(response=500, description="Error interno del servidor")
      * )
      */
-    public function update(UpdatePatientRequestApi $request, $id)
+    public function update(Request $request, $id)
     {
         try {
             $patient = Patient::findOrFail($id);
-            $patient->update($request->validated());
+            $patient->update($request->all());
             return $this->sendResponse(new PatientResource($patient), 'Paciente actualizado exitosamente.');
         } catch (\Exception $e) {
             return $this->sendError('Error al actualizar el paciente.', $e->getMessage());

@@ -51,6 +51,7 @@ class PatientResource extends JsonResource
             'situacion_habitage' => $this->situacion_habitage,
             'autonomia' => $this->autonomia,
             'situacion_economica' => $this->situacion_economica,
+            'operator_id' => $this->operator_id
         ];
     }
 }

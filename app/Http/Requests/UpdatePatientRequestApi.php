@@ -51,6 +51,7 @@ class UpdatePatientRequestApi extends FormRequest
             'telefono' => 'integer',
             'email' => 'string|email|max:255|unique:pacientes,email,' . $this->route('patient'),
             'zona_id' => 'exists:zonas,id',
+            'operator_id' => 'exists:users,id',
         ];
     }
 }

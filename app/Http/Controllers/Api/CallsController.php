@@ -70,7 +70,7 @@ class CallsController extends BaseController
             $call = Call::create($request->validated());
             event(new CallCreated($call));
 
-            return $this->sendResponse($call, 'Llamada creada exitosamente.', 201);
+            return $this->sendResponse(new CallResource($call), 'Llamada creada exitosamente.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Error al crear la llamada.', $e->getMessage());
         }

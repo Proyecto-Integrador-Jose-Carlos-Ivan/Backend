@@ -42,7 +42,6 @@ class CallResource extends JsonResource
             'categoria' => $this->categoria,
             'subtipo' => $this->subtipo,
             'aviso_id' => $this->aviso_id,
-            'operador' => $this->operador,
             'paciente' => $this->paciente,
             'aviso' => $this->aviso,
         ];
