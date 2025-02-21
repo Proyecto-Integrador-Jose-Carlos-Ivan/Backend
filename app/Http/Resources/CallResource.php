@@ -43,7 +43,6 @@ class CallResource extends JsonResource
             'subtipo' => $this->subtipo,
             'aviso_id' => $this->aviso_id,
             'paciente' => $this->paciente,
-            'aviso' => $this->aviso,
         ];
     }
 }

@@ -9,11 +9,12 @@ use Illuminate\Foundation\Http\FormRequest;
  *     schema="StoreCallRequest",
  *     title="Store Call Request",
  *     description="Store Call request body data",
+ *     required={"fecha_hora", "operador_id", "paciente_id", "descripcion", "sentido", "categoria", "subtipo"},
  *     @OA\Property(property="fecha_hora", type="string", format="date-time", description="Call date and time"),
  *     @OA\Property(property="operador_id", type="integer", description="Operator ID"),
  *     @OA\Property(property="paciente_id", type="integer", description="Patient ID"),
  *     @OA\Property(property="descripcion", type="string", description="Call description"),
- *     @OA\Property(property="sentido", type="string", description="Call direction (entrante/saliente)"),
+ *     @OA\Property(property="sentido", type="string", enum={"entrante", "saliente"}, description="Call direction"),
  *     @OA\Property(property="categoria", type="string", description="Call category"),
  *     @OA\Property(property="subtipo", type="string", description="Call subtype"),
  *     @OA\Property(property="aviso_id", type="integer", description="Alert ID"),
@@ -39,14 +40,14 @@ class StoreCallRequestApi extends FormRequest
     {
         return [
             'fecha_hora' => 'required|date',
-            'operador_id' => 'required|exists:operadores,id',
+            'operador_id' => 'required|exists:users,id',
             'paciente_id' => 'required|exists:pacientes,id',
             'descripcion' => 'nullable|string',
             'sentido' => 'required|in:entrante,saliente',
-            'categoria' => 'required|in:atencion_emergencias,comunicaciones_no_urgentes,no_planificada,planificada',
-            'subtipo' => 'nullable|in:emergencias_sociales,emergencias_sanitarias,emergencias_crisis_soledad,emergencias_alarma_sin_respuesta,notificar_ausencias,modificar_datos,llamadas_accidentales,peticion_informacion,sugerencias_quejas,llamadas_sociales,registrar_citas,otros',
+            'categoria' => 'required|string',
+            'subtipo' => 'required|string',
             'aviso_id' => 'nullable|exists:avisos,id',
-            'zone_id' => 'nullable|exists:zones,id',
+            'zone_id' => 'nullable|exists:zonas,id',
         ];
     }
 
