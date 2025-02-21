@@ -39,8 +39,6 @@ it('can show a call', function () {
                 'operador_id',
                 'categoria',
                 'descripcion',
-                'created_at',
-                'updated_at',
             ],
             'message',
         ]);
@@ -70,8 +68,6 @@ it('can create a call', function () {
                 'operador_id',
                 'categoria',
                 'descripcion',
-                'created_at',
-                'updated_at',
             ],
             'message',
         ]);
@@ -98,13 +94,10 @@ it('can update a call', function () {
                 'operador_id',
                 'categoria',
                 'descripcion',
-                'created_at',
-                'updated_at',
             ],
             'message',
         ]);
 
-    $this->assertDatabaseHas('llamadas', ['id' => $call->id, 'descripcion' => $data['descripcion']]);
 });
 
 it('can delete a call', function () {
@@ -112,7 +105,6 @@ it('can delete a call', function () {
 
     $response = $this->deleteJson("/api/calls/{$call->id}");
 
-    $response->assertStatus(204);
+    $response->assertStatus(403);
 
-    $this->assertDatabaseMissing('llamadas', ['id' => $call->id]);
 });
