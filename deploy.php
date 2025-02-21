@@ -39,9 +39,17 @@ task('deploy:vendors', function () {
     run('cd {{release_path}} && composer install --optimize-autoloader');
 });
 
+// task('artisan:queue:work', function () {
+//     run('{{bin/php}} {{release_path}}/artisan queue:work');
+//  })->desc('Ejecutar queue:work');
+
+// task('artisan:queue:restart', function () {
+//     run('{{bin/php}} {{release_path}}/artisan queue:restart');
+// })->desc('Restart queue workers');
+
 task('artisan:queue:work', function () {
-    run('{{bin/php}} {{release_path}}/artisan queue:work');
- })->desc('Ejecutar queue:work');
+    run('{{bin/php}} {{release_path}}/artisan queue:work &');
+})->desc('Ejecutar queue:work en segundo plano');
 
 // Hooks
 before('deploy:shared', 'upload:env');
@@ -49,7 +57,9 @@ before('deploy:symlink', 'artisan:migrate:fresh:seed');
 // before('deploy:writable', 'deploy:install_acl');
 before('deploy:symlink', 'deploy:vendors');
 before('deploy:symlink', 'build');
-after('reload:php-fpm', 'artisan:queue:work');
+// after('reload:php-fpm', 'artisan:queue:work');
+// after('deploy', 'artisan:queue:restart');
+// after('deploy', 'artisan:queue:work');
 
 after('deploy', 'reload:php-fpm');
 after('deploy:failed', 'deploy:unlock');
