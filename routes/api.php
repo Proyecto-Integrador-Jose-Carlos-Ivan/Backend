@@ -30,7 +30,15 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 Route::middleware(['auth:sanctum', 'api'])->group(function () {
 
     // Pacientes
-    Route::apiResource('patients', PatientsController::class);
+    Route::apiResource('patients', PatientsController::class)->names([
+        'index' => 'patients.api.index',
+        'show' => 'patients.api.show',
+        'edit' => 'patients.api.edit',
+        'update' => 'patients.api.update',
+        'destroy' => 'patients.api.destroy',
+        'create' => 'patients.api.create',
+        'store' => 'patients.api.store',
+    ]);
 
     // Contactos de pacientes
     Route::get('patients/{id}/contacts', [ContactsController::class, 'index']);
