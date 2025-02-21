@@ -22,15 +22,8 @@ class OperatorController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-        ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        User::create($request->all());
 
         return redirect()->route('operators.index')->with('success', 'Operator created successfully.');
     }
@@ -47,15 +40,8 @@ class OperatorController extends Controller
 
     public function update(Request $request, User $operator)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $operator->id,
-        ]);
 
-        $operator->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        $operator->update($request->all());
 
         return redirect()->route('operators.index')->with('success', 'Operator updated successfully.');
     }
